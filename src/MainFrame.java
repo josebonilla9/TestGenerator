@@ -11,9 +11,8 @@ public final class MainFrame extends javax.swing.JFrame {
         Utility.SetCreateButtonImg(buttonCreate, "Boton_Off");
         chooserPanel.setVisible(false);
         mostrarLauncherButtons();
-                
-        ContentPanel panelContenido = new ContentPanel();
-        showPanel(panelContenido);
+        Utility.SetAddQuestionInfoButtonImg(addButton, "Mas_Off");
+        Utility.SetAddQuestionInfoButtonImg(infoButton, "Info_Off");        
     }
 
     @SuppressWarnings("unchecked")
@@ -34,6 +33,10 @@ public final class MainFrame extends javax.swing.JFrame {
         selection4 = new javax.swing.JLabel();
         selection5 = new javax.swing.JLabel();
         chooserBackground = new javax.swing.JLabel();
+        addQuestionPanel = new javax.swing.JPanel();
+        addQuestionText = new javax.swing.JLabel();
+        addButton = new javax.swing.JLabel();
+        infoButton = new javax.swing.JLabel();
         questionsPanel = new javax.swing.JPanel();
         lowerPanel = new javax.swing.JPanel();
         buttonCreate = new javax.swing.JLabel();
@@ -104,8 +107,8 @@ public final class MainFrame extends javax.swing.JFrame {
 
         contentPanel.setOpaque(false);
 
+        chooserPanel.setBackground(new java.awt.Color(57, 68, 80));
         chooserPanel.setMinimumSize(new java.awt.Dimension(368, 180));
-        chooserPanel.setOpaque(false);
         chooserPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         selection1.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
@@ -148,20 +151,40 @@ public final class MainFrame extends javax.swing.JFrame {
 
         contentPanel.add(chooserPanel);
 
+        addQuestionPanel.setOpaque(false);
+        addQuestionPanel.setPreferredSize(new java.awt.Dimension(348, 30));
+        addQuestionPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        addQuestionText.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
+        addQuestionText.setForeground(new java.awt.Color(255, 255, 255));
+        addQuestionText.setText("Añadir una pregunta");
+        addQuestionPanel.add(addQuestionText, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Mas_Off.png"))); // NOI18N
+        addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addButton.setPreferredSize(new java.awt.Dimension(18, 18));
+        addButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addButtonMouseClicked(evt);
+            }
+        });
+        addQuestionPanel.add(addButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, -1, -1));
+
+        infoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Info_Off.png"))); // NOI18N
+        infoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        infoButton.setPreferredSize(new java.awt.Dimension(18, 18));
+        infoButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                infoButtonMouseClicked(evt);
+            }
+        });
+        addQuestionPanel.add(infoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, -1, -1));
+
+        contentPanel.add(addQuestionPanel);
+
         questionsPanel.setOpaque(false);
-        questionsPanel.setPreferredSize(new java.awt.Dimension(370, 400));
-
-        javax.swing.GroupLayout questionsPanelLayout = new javax.swing.GroupLayout(questionsPanel);
-        questionsPanel.setLayout(questionsPanelLayout);
-        questionsPanelLayout.setHorizontalGroup(
-            questionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 370, Short.MAX_VALUE)
-        );
-        questionsPanelLayout.setVerticalGroup(
-            questionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-
+        questionsPanel.setPreferredSize(new java.awt.Dimension(370, 200));
+        questionsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         contentPanel.add(questionsPanel);
 
         jPanel1.add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 370, 670));
@@ -174,6 +197,7 @@ public final class MainFrame extends javax.swing.JFrame {
         buttonCreate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         buttonCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Boton_Off.png"))); // NOI18N
         buttonCreate.setText("Crear");
+        buttonCreate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buttonCreate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         debugText.setForeground(new java.awt.Color(255, 255, 255));
@@ -210,7 +234,7 @@ public final class MainFrame extends javax.swing.JFrame {
         jPanel1.add(lowerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 830, 430, -1));
 
         mainBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Fondo.png"))); // NOI18N
-        jPanel1.add(mainBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 930));
+        jPanel1.add(mainBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 932));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -232,12 +256,27 @@ public final class MainFrame extends javax.swing.JFrame {
         Utility.ChangeVisibilityChooserPanel(chooserPanel, simulatorChooser);
     }//GEN-LAST:event_simulatorChooserMouseClicked
 
+    ContentPanel panelContenido = new ContentPanel();
+    
+    private void addButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addButtonMouseClicked
+        
+        contentPanel.add(panelContenido);
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }//GEN-LAST:event_addButtonMouseClicked
+
+    private void infoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoButtonMouseClicked
+        contentPanel.remove(panelContenido);
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }//GEN-LAST:event_infoButtonMouseClicked
+
     public static void main(String args[]) {
        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFrame().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainFrame().setVisible(true);
         });
     }
     
@@ -259,22 +298,26 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }
     
-    public void showPanel(JPanel p) {
-        p.setSize(370, 400);
-        p.setLocation(0, 0);
-
-        questionsPanel.removeAll();
-        questionsPanel.add(p, BorderLayout.CENTER);
-        questionsPanel.revalidate();
-        questionsPanel.repaint();
-    }
+//    public void showPanel(JPanel p) {
+//        p.setSize(370, 200);
+//        p.setLocation(0, 0);
+//
+//        questionsPanel.removeAll();
+//        questionsPanel.add(p, BorderLayout.CENTER);
+//        questionsPanel.revalidate();
+//        questionsPanel.repaint();
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel addButton;
+    private javax.swing.JPanel addQuestionPanel;
+    private javax.swing.JLabel addQuestionText;
     private javax.swing.JLabel buttonCreate;
     private javax.swing.JLabel chooserBackground;
     private javax.swing.JPanel chooserPanel;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JLabel debugText;
+    private javax.swing.JLabel infoButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel lowerPanel;
