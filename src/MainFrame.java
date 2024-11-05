@@ -7,12 +7,10 @@ public final class MainFrame extends javax.swing.JFrame {
 
     public MainFrame() {
         initComponents();
-        Utility.SetChooserButtonImg(simulatorChooser, "Desplegable_Off");
-        Utility.SetCreateButtonImg(buttonCreate, "Boton_Off");
+        showImg();
         chooserPanel.setVisible(false);
-        mostrarLauncherButtons();
-        Utility.SetAddQuestionInfoButtonImg(addButton, "Mas_Off");
-        Utility.SetAddQuestionInfoButtonImg(infoButton, "Info_Off");        
+        showLauncherButtons();
+        showQuestionPanels();
     }
 
     @SuppressWarnings("unchecked")
@@ -163,11 +161,6 @@ public final class MainFrame extends javax.swing.JFrame {
         addButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Mas_Off.png"))); // NOI18N
         addButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addButton.setPreferredSize(new java.awt.Dimension(18, 18));
-        addButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addButtonMouseClicked(evt);
-            }
-        });
         addQuestionPanel.add(addButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, -1, -1));
 
         infoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Info_Off.png"))); // NOI18N
@@ -183,8 +176,8 @@ public final class MainFrame extends javax.swing.JFrame {
         contentPanel.add(addQuestionPanel);
 
         questionsPanel.setOpaque(false);
-        questionsPanel.setPreferredSize(new java.awt.Dimension(370, 200));
-        questionsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        questionsPanel.setPreferredSize(new java.awt.Dimension(370, 800));
+        questionsPanel.setLayout(new javax.swing.BoxLayout(questionsPanel, javax.swing.BoxLayout.PAGE_AXIS));
         contentPanel.add(questionsPanel);
 
         jPanel1.add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 370, 670));
@@ -256,21 +249,9 @@ public final class MainFrame extends javax.swing.JFrame {
         Utility.ChangeVisibilityChooserPanel(chooserPanel, simulatorChooser);
     }//GEN-LAST:event_simulatorChooserMouseClicked
 
-    ContentPanel panelContenido = new ContentPanel();
     
-    private void addButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addButtonMouseClicked
-        
-        contentPanel.add(panelContenido);
-
-        contentPanel.revalidate();
-        contentPanel.repaint();
-    }//GEN-LAST:event_addButtonMouseClicked
-
     private void infoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoButtonMouseClicked
-        contentPanel.remove(panelContenido);
-
-        contentPanel.revalidate();
-        contentPanel.repaint();
+        
     }//GEN-LAST:event_infoButtonMouseClicked
 
     public static void main(String args[]) {
@@ -280,7 +261,14 @@ public final class MainFrame extends javax.swing.JFrame {
         });
     }
     
-    public void mostrarLauncherButtons() {
+    public void showImg() {
+        Utility.SetChooserButtonImg(simulatorChooser, "Desplegable_Off");
+        Utility.SetCreateButtonImg(buttonCreate, "Boton_Off");
+        Utility.SetAddQuestionInfoButtonImg(addButton, "Mas_Off", new Dimension(18, 18));
+        Utility.SetAddQuestionInfoButtonImg(infoButton, "Info_Off", new Dimension(18, 18));      
+    }
+    
+    public void showLauncherButtons() {
         JLabel[] buttons = {
             selection1, selection2, selection3, selection4, selection5
         };
@@ -297,17 +285,17 @@ public final class MainFrame extends javax.swing.JFrame {
             });
         }
     }
+        
+    public void showQuestionPanels() {
+        
+        addButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Utility.AddNewPanels(questionsPanel);
+            }
+        });
+    }
     
-//    public void showPanel(JPanel p) {
-//        p.setSize(370, 200);
-//        p.setLocation(0, 0);
-//
-//        questionsPanel.removeAll();
-//        questionsPanel.add(p, BorderLayout.CENTER);
-//        questionsPanel.revalidate();
-//        questionsPanel.repaint();
-//    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addButton;
     private javax.swing.JPanel addQuestionPanel;
