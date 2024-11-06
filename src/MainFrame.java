@@ -7,10 +7,9 @@ public final class MainFrame extends javax.swing.JFrame {
 
     public MainFrame() {
         initComponents();
-        showImg();
+        methodCallingAndShowImg();
         chooserPanel.setVisible(false);
-        showLauncherButtons();
-        showQuestionPanels();
+        infoPanel.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -35,6 +34,10 @@ public final class MainFrame extends javax.swing.JFrame {
         addQuestionText = new javax.swing.JLabel();
         addButton = new javax.swing.JLabel();
         infoButton = new javax.swing.JLabel();
+        infoPanel = new javax.swing.JPanel();
+        infoText1 = new javax.swing.JLabel();
+        infoText2 = new javax.swing.JLabel();
+        infoText3 = new javax.swing.JLabel();
         questionsPanel = new javax.swing.JPanel();
         lowerPanel = new javax.swing.JPanel();
         buttonCreate = new javax.swing.JLabel();
@@ -166,14 +169,33 @@ public final class MainFrame extends javax.swing.JFrame {
         infoButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Info_Off.png"))); // NOI18N
         infoButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         infoButton.setPreferredSize(new java.awt.Dimension(18, 18));
-        infoButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                infoButtonMouseClicked(evt);
-            }
-        });
         addQuestionPanel.add(infoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, -1, -1));
 
         contentPanel.add(addQuestionPanel);
+
+        infoPanel.setBackground(new java.awt.Color(60, 81, 99));
+        infoPanel.setPreferredSize(new java.awt.Dimension(370, 80));
+        infoPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        infoText1.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
+        infoText1.setForeground(new java.awt.Color(255, 255, 255));
+        infoText1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoText1.setText("Añade las preguntas que quieras que aparezcan durante");
+        infoPanel.add(infoText1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 350, -1));
+
+        infoText2.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
+        infoText2.setForeground(new java.awt.Color(255, 255, 255));
+        infoText2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoText2.setText("la simulación. Luego, pulsa el botón cear para exportar");
+        infoPanel.add(infoText2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 350, -1));
+
+        infoText3.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
+        infoText3.setForeground(new java.awt.Color(255, 255, 255));
+        infoText3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        infoText3.setText("el archivo zip que deberas subir a SharePoint.");
+        infoPanel.add(infoText3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 350, -1));
+
+        contentPanel.add(infoPanel);
 
         questionsPanel.setOpaque(false);
         questionsPanel.setPreferredSize(new java.awt.Dimension(370, 800));
@@ -184,14 +206,14 @@ public final class MainFrame extends javax.swing.JFrame {
 
         lowerPanel.setOpaque(false);
 
-        buttonCreate.setBackground(new java.awt.Color(255, 255, 255));
+        buttonCreate.setBackground(new java.awt.Color(2, 10, 18));
         buttonCreate.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
         buttonCreate.setForeground(new java.awt.Color(255, 255, 255));
         buttonCreate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        buttonCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Boton_Off.png"))); // NOI18N
         buttonCreate.setText("Crear");
         buttonCreate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buttonCreate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        buttonCreate.setOpaque(true);
 
         debugText.setForeground(new java.awt.Color(255, 255, 255));
         debugText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -250,10 +272,6 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_simulatorChooserMouseClicked
 
     
-    private void infoButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_infoButtonMouseClicked
-        
-    }//GEN-LAST:event_infoButtonMouseClicked
-
     public static void main(String args[]) {
        
         java.awt.EventQueue.invokeLater(() -> {
@@ -261,11 +279,99 @@ public final class MainFrame extends javax.swing.JFrame {
         });
     }
     
-    public void showImg() {
+    public void methodCallingAndShowImg() {
         Utility.SetChooserButtonImg(simulatorChooser, "Desplegable_Off");
-        Utility.SetCreateButtonImg(buttonCreate, "Boton_Off");
-        Utility.SetAddQuestionInfoButtonImg(addButton, "Mas_Off", new Dimension(18, 18));
-        Utility.SetAddQuestionInfoButtonImg(infoButton, "Info_Off", new Dimension(18, 18));      
+        Utility.SetImgWithDimension(addButton, "Mas_Off", new Dimension(18, 18));
+        Utility.SetImgWithDimension(infoButton, "Info_Off", new Dimension(18, 18));
+        
+        Utility.readCSV(questionsPanel);
+        showLauncherButtons();
+        changeButtonColor();
+        mouseEventsQuestionButtons();
+    }
+    
+    public void changeButtonColor() {  
+        buttonCreate.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Utility.writeCSV();
+            }
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                buttonCreate.setBackground(new Color(105, 255, 255));
+                buttonCreate.setForeground(new Color(2, 10,18));
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                buttonCreate.setBackground(new Color(2, 10,18));
+                buttonCreate.setForeground(new Color(255, 255, 255));
+            }
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                buttonCreate.setBackground(new Color(2, 10,18));
+                buttonCreate.setForeground(new Color(255, 255, 255));
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                buttonCreate.setBackground(new Color(105, 255, 255));
+                buttonCreate.setForeground(new Color(255, 255, 255));
+            }
+        });
+    }
+    
+    private boolean isInfoOn = false;
+    
+    public void mouseEventsQuestionButtons() {
+        JLabel[] buttons = {
+            addButton, infoButton
+        };
+
+        for (int i = 0; i < buttons.length; i++) {
+            final int index = i;
+
+            buttons[i].addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    if (buttons[index] == infoButton) {
+                        if (isInfoOn) {
+                            Utility.SetImgWithDimension(infoButton, "Info_Off", new Dimension(18, 18));
+                            isInfoOn = false;
+                            infoPanel.setVisible(false);
+                        } else {
+                            Utility.SetImgWithDimension(infoButton, "Info_On", new Dimension(18, 18));
+                            isInfoOn = true;
+                            infoPanel.setVisible(true);
+                        }
+                    } else if (buttons[index] == addButton){
+                        Utility.AddNewPanels(questionsPanel);
+                    }
+                }
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    if (buttons[index] == addButton){
+                        Utility.SetImgWithDimension(addButton, "Mas_On", new Dimension(18, 18));
+                    }
+                }
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    if (buttons[index] == addButton){
+                        Utility.SetImgWithDimension(addButton, "Mas_Off", new Dimension(18, 18));
+                    }
+                }
+                @Override
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                   if (buttons[index] == addButton){
+                        Utility.SetImgWithDimension(addButton, "Mas_Off", new Dimension(18, 18));
+                    }
+                }
+                @Override
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    if (buttons[index] == addButton){
+                        Utility.SetImgWithDimension(addButton, "Mas_On", new Dimension(18, 18));
+                    }
+                }
+            });
+        }
     }
     
     public void showLauncherButtons() {
@@ -285,16 +391,6 @@ public final class MainFrame extends javax.swing.JFrame {
             });
         }
     }
-        
-    public void showQuestionPanels() {
-        
-        addButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Utility.AddNewPanels(questionsPanel);
-            }
-        });
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addButton;
@@ -306,6 +402,10 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel contentPanel;
     private javax.swing.JLabel debugText;
     private javax.swing.JLabel infoButton;
+    private javax.swing.JPanel infoPanel;
+    private javax.swing.JLabel infoText1;
+    private javax.swing.JLabel infoText2;
+    private javax.swing.JLabel infoText3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel lowerPanel;

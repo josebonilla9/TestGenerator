@@ -2,14 +2,37 @@
 import java.awt.*;
 import javax.swing.*;
 
-
-public class ContentPanel extends javax.swing.JPanel {
-
+public final class ContentPanel extends javax.swing.JPanel {
+    
+    private String question;
+    private String correctAnswer;
+    private String incorrectAnswer1;
+    private String incorrectAnswer2;
+    private String incorrectAnswer3;
+            
     public ContentPanel() {
         initComponents();
-        Utility.SetAddQuestionInfoButtonImg(minusButton, "Menos_Off", new Dimension(12, 12));   
+        Utility.SetImgWithDimension(minusButton, "Menos_Off", new Dimension(12, 12));
+        mouseEventsMinusButton();
     }
 
+    public ContentPanel(String question, String correctAnswer, String incorrectAnswer1, String incorrectAnswer2, String incorrectAnswer3) {
+        this.question = question;
+        this.correctAnswer = correctAnswer;
+        this.incorrectAnswer1 = incorrectAnswer1;
+        this.incorrectAnswer2 = incorrectAnswer2;
+        this.incorrectAnswer3 = incorrectAnswer3;
+    }
+    
+    public String toCSV() {
+        question = questionText.getText();
+        correctAnswer = correctAnswerText.getText();
+        incorrectAnswer1 = incorrectAnswerText1.getText();
+        incorrectAnswer2 = incorrectAnswerText2.getText();
+        incorrectAnswer3 = incorrectAnswerText3.getText();
+        return question + "," + correctAnswer + "," + incorrectAnswer1 + "," + incorrectAnswer2 + "," + incorrectAnswer3;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -135,11 +158,31 @@ public class ContentPanel extends javax.swing.JPanel {
 
     private void minusButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minusButtonMouseClicked
         JPanel parent = (JPanel) this.getParent();
-            if (parent != null) {
-                Utility.RemovePanel(this, parent);
-            }
+        if (parent != null) {
+            Utility.RemovePanel(this, parent);
+        }
     }//GEN-LAST:event_minusButtonMouseClicked
 
+    public void mouseEventsMinusButton() {
+        minusButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JPanel parent = (JPanel) minusButton.getParent(); // Cambiar 'this' por 'minusButton'
+                if (parent != null) {
+                    Utility.RemovePanel(questionPanel, parent);
+                }
+            }
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                Utility.SetImgWithDimension(minusButton, "Menos_On", new Dimension(12, 12));   
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                Utility.SetImgWithDimension(minusButton, "Menos_Off", new Dimension(12, 12));   
+            }
+        });
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel answersPanel;

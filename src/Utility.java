@@ -1,8 +1,11 @@
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
 import javax.swing.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class Utility {
@@ -38,21 +41,6 @@ public class Utility {
         jLabelButtons.repaint();
     }
     
-    public static void SetCreateButtonImg(JLabel jLabelButton, String imgName) {
-        // Carga la imagen desde el directorio especificado
-        ImageIcon image = new ImageIcon("src/images/" + imgName + ".png");
-        
-        // Obtiene las dimensiones del JLabel
-        int labelWidth = jLabelButton.getWidth();
-        int labelHeight = jLabelButton.getHeight();
-
-        Icon icon = new ImageIcon(image.getImage().getScaledInstance(labelWidth, labelHeight, Image.SCALE_SMOOTH));
-        jLabelButton.setIcon(icon);
-        
-        // Redibuja el botón
-        jLabelButton.repaint();
-    }
-    
     public static void ChangeVisibilityChooserPanel(JPanel chooserPanel, JLabel jLabelButton) {
         if (chooserPanel.isVisible()){
             chooserPanel.setVisible(false);
@@ -63,7 +51,7 @@ public class Utility {
         }
     }
     
-    public static void SetAddQuestionInfoButtonImg(JLabel jLabelButton, String imgName, Dimension dimension) {
+    public static void SetImgWithDimension(JLabel jLabelButton, String imgName, Dimension dimension) {
         // Carga la imagen desde el directorio especificado
         ImageIcon image = new ImageIcon("src/images/" + imgName + ".png");
         
@@ -75,7 +63,7 @@ public class Utility {
         jLabelButton.repaint();
     }
     
-    private static final List<JPanel> panelList = new ArrayList<>();
+    private static final List<ContentPanel> panelList = new ArrayList<>();
     
     public static void AddNewPanels(JPanel containerPanel) {
         ContentPanel questionAnswersPanel = new ContentPanel();
@@ -100,5 +88,44 @@ public class Utility {
 
         System.out.println("Se ha eliminado un panel");
         System.out.println("Total de paneles en la lista: " + panelList.size());
+    }
+    
+    public static void writeCSV() {
+        File f = new File("src/questions.csv");
+                
+        try (FileWriter fw = new FileWriter(f)) {
+            for (ContentPanel questionAnswersPanel : panelList) {
+                if (questionAnswersPanel != null) {
+                    fw.write(questionAnswersPanel.toCSV() + "\n");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Se ha producido un error al escribir el archivo CSV: " + e.getMessage());
+        }
+    }
+    
+    public static void readCSV(JPanel containerPanel) {
+        File f = new File("src/questions.csv");
+        String[] datos;
+                        
+        try (Scanner scFile = new Scanner(f)) {
+            while (scFile.hasNextLine()) {
+                datos = scFile.nextLine().split(",");
+                ContentPanel questionAnswersPanel = new ContentPanel(datos[0], datos[1], datos[2], datos[3], datos[4]);
+                
+                for (String dato : datos) {
+                    System.out.println();
+                }
+                
+                panelList.add(questionAnswersPanel);
+                
+                containerPanel.add(panelList.get(0), 0);
+                containerPanel.revalidate();
+                containerPanel.repaint();
+                
+            }
+        } catch (Exception e) {
+            System.out.println("Se ha producido un error al escribir el archivo CSV: " + e.getMessage());
+        }
     }
 }
