@@ -9,19 +9,31 @@ public final class ContentPanel extends javax.swing.JPanel {
     private String incorrectAnswer1;
     private String incorrectAnswer2;
     private String incorrectAnswer3;
+    
+    private Dimension buttonDimension = new Dimension(12, 12);
             
     public ContentPanel() {
         initComponents();
-        Utility.SetImgWithDimension(minusButton, "Menos_Off", new Dimension(12, 12));
+        Utility.SetImgWithDimension(minusButton, "Menos_Off", buttonDimension);
         mouseEventsMinusButton();
     }
 
     public ContentPanel(String question, String correctAnswer, String incorrectAnswer1, String incorrectAnswer2, String incorrectAnswer3) {
+        initComponents();
+        Utility.SetImgWithDimension(minusButton, "Menos_Off", buttonDimension);
+        mouseEventsMinusButton();
+        
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.incorrectAnswer1 = incorrectAnswer1;
         this.incorrectAnswer2 = incorrectAnswer2;
         this.incorrectAnswer3 = incorrectAnswer3;
+        
+        questionText.setText(question);
+        correctAnswerText.setText(correctAnswer);
+        incorrectAnswerText1.setText(incorrectAnswer1);
+        incorrectAnswerText2.setText(incorrectAnswer2);
+        incorrectAnswerText3.setText(incorrectAnswer3);
     }
     
     public String toCSV() {
@@ -37,7 +49,7 @@ public final class ContentPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        newQuestionPanel = new javax.swing.JPanel();
+        newQuestionPanel = new RoundedPanel();
         questionPanel = new javax.swing.JPanel();
         questionTitle = new javax.swing.JLabel();
         minusButton = new javax.swing.JLabel();
@@ -56,6 +68,7 @@ public final class ContentPanel extends javax.swing.JPanel {
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         newQuestionPanel.setBackground(new java.awt.Color(26, 40, 55));
+        newQuestionPanel.setPreferredSize(new java.awt.Dimension(370, 200));
         newQuestionPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         questionPanel.setOpaque(false);
@@ -153,7 +166,7 @@ public final class ContentPanel extends javax.swing.JPanel {
 
         newQuestionPanel.add(answersPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 370, 140));
 
-        add(newQuestionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 370, 200));
+        add(newQuestionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void minusButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minusButtonMouseClicked
@@ -167,23 +180,19 @@ public final class ContentPanel extends javax.swing.JPanel {
         minusButton.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                JPanel parent = (JPanel) minusButton.getParent(); // Cambiar 'this' por 'minusButton'
-                if (parent != null) {
-                    Utility.RemovePanel(questionPanel, parent);
-                }
+                
             }
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                Utility.SetImgWithDimension(minusButton, "Menos_On", new Dimension(12, 12));   
+                Utility.SetImgWithDimension(minusButton, "Menos_On", buttonDimension);   
             }
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                Utility.SetImgWithDimension(minusButton, "Menos_Off", new Dimension(12, 12));   
+                Utility.SetImgWithDimension(minusButton, "Menos_Off", buttonDimension);   
             }
         });
     }
     
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel answersPanel;
     private javax.swing.JTextField correctAnswerText;
@@ -193,7 +202,7 @@ public final class ContentPanel extends javax.swing.JPanel {
     private javax.swing.JTextField incorrectAnswerText3;
     private javax.swing.JLabel incorrectAnswerTitle;
     private javax.swing.JLabel minusButton;
-    private javax.swing.JPanel newQuestionPanel;
+    private RoundedPanel newQuestionPanel;
     private javax.swing.JPanel questionPanel;
     private javax.swing.JTextField questionText;
     private javax.swing.JLabel questionTitle;

@@ -5,11 +5,11 @@ import javax.swing.*;
 
 public final class MainFrame extends javax.swing.JFrame {
 
+    private Dimension buttonDimension = new Dimension(18, 18);
+    
     public MainFrame() {
         initComponents();
-        methodCallingAndShowImg();
-        chooserPanel.setVisible(false);
-        infoPanel.setVisible(false);
+        initConfig();
     }
 
     @SuppressWarnings("unchecked")
@@ -23,23 +23,23 @@ public final class MainFrame extends javax.swing.JFrame {
         simulatorTypeText = new javax.swing.JLabel();
         simulatorChooser = new javax.swing.JLabel();
         contentPanel = new javax.swing.JPanel();
-        chooserPanel = new javax.swing.JPanel();
+        chooserPanel = new RoundedPanel();
         selection1 = new javax.swing.JLabel();
         selection2 = new javax.swing.JLabel();
         selection3 = new javax.swing.JLabel();
         selection4 = new javax.swing.JLabel();
         selection5 = new javax.swing.JLabel();
-        chooserBackground = new javax.swing.JLabel();
         addQuestionPanel = new javax.swing.JPanel();
         addQuestionText = new javax.swing.JLabel();
         addButton = new javax.swing.JLabel();
         infoButton = new javax.swing.JLabel();
-        infoPanel = new javax.swing.JPanel();
+        infoPanel = new RoundedPanel();
         infoText1 = new javax.swing.JLabel();
         infoText2 = new javax.swing.JLabel();
         infoText3 = new javax.swing.JLabel();
         questionsPanel = new javax.swing.JPanel();
         lowerPanel = new javax.swing.JPanel();
+        createButtonPanel = new RoundedPanel();
         buttonCreate = new javax.swing.JLabel();
         debugText = new javax.swing.JLabel();
         mainBackground = new javax.swing.JLabel();
@@ -109,7 +109,7 @@ public final class MainFrame extends javax.swing.JFrame {
         contentPanel.setOpaque(false);
 
         chooserPanel.setBackground(new java.awt.Color(57, 68, 80));
-        chooserPanel.setMinimumSize(new java.awt.Dimension(368, 180));
+        chooserPanel.setPreferredSize(new java.awt.Dimension(368, 180));
         chooserPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         selection1.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
@@ -117,38 +117,35 @@ public final class MainFrame extends javax.swing.JFrame {
         selection1.setText(" Ahora Aprendo");
         selection1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         selection1.setPreferredSize(new java.awt.Dimension(370, 30));
-        chooserPanel.add(selection1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 5, -1, -1));
+        chooserPanel.add(selection1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 5, 360, -1));
 
         selection2.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         selection2.setForeground(new java.awt.Color(255, 255, 255));
         selection2.setText(" El Cazador");
         selection2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         selection2.setPreferredSize(new java.awt.Dimension(370, 30));
-        chooserPanel.add(selection2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, -1, -1));
+        chooserPanel.add(selection2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 360, -1));
 
         selection3.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         selection3.setForeground(new java.awt.Color(255, 255, 255));
         selection3.setText(" Atrapa los Univercoins");
         selection3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         selection3.setPreferredSize(new java.awt.Dimension(370, 30));
-        chooserPanel.add(selection3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 75, -1, -1));
+        chooserPanel.add(selection3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 75, 360, -1));
 
         selection4.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         selection4.setForeground(new java.awt.Color(255, 255, 255));
         selection4.setText(" BAAM");
         selection4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         selection4.setPreferredSize(new java.awt.Dimension(370, 30));
-        chooserPanel.add(selection4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, -1, -1));
+        chooserPanel.add(selection4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 360, -1));
 
         selection5.setFont(new java.awt.Font("Raleway", 0, 14)); // NOI18N
         selection5.setForeground(new java.awt.Color(255, 255, 255));
         selection5.setText(" PiensoPalabra");
         selection5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         selection5.setPreferredSize(new java.awt.Dimension(370, 30));
-        chooserPanel.add(selection5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 145, -1, -1));
-
-        chooserBackground.setBackground(new java.awt.Color(0, 0, 0));
-        chooserPanel.add(chooserBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 180));
+        chooserPanel.add(selection5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 145, 360, -1));
 
         contentPanel.add(chooserPanel);
 
@@ -206,6 +203,10 @@ public final class MainFrame extends javax.swing.JFrame {
 
         lowerPanel.setOpaque(false);
 
+        createButtonPanel.setBackground(new java.awt.Color(2, 10, 18));
+        createButtonPanel.setPreferredSize(new java.awt.Dimension(341, 50));
+        createButtonPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         buttonCreate.setBackground(new java.awt.Color(2, 10, 18));
         buttonCreate.setFont(new java.awt.Font("Raleway", 0, 18)); // NOI18N
         buttonCreate.setForeground(new java.awt.Color(255, 255, 255));
@@ -213,7 +214,7 @@ public final class MainFrame extends javax.swing.JFrame {
         buttonCreate.setText("Crear");
         buttonCreate.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         buttonCreate.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        buttonCreate.setOpaque(true);
+        createButtonPanel.add(buttonCreate, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 341, 50));
 
         debugText.setForeground(new java.awt.Color(255, 255, 255));
         debugText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -224,29 +225,21 @@ public final class MainFrame extends javax.swing.JFrame {
         lowerPanelLayout.setHorizontalGroup(
             lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lowerPanelLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(buttonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
-            .addGroup(lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(lowerPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(debugText, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
-                    .addContainerGap()))
+                .addGap(39, 39, 39)
+                .addComponent(createButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+            .addComponent(debugText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         lowerPanelLayout.setVerticalGroup(
             lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(lowerPanelLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(buttonCreate, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(29, Short.MAX_VALUE))
-            .addGroup(lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lowerPanelLayout.createSequentialGroup()
-                    .addContainerGap(78, Short.MAX_VALUE)
-                    .addComponent(debugText)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(createButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(debugText)
+                .addGap(0, 18, Short.MAX_VALUE))
         );
 
-        jPanel1.add(lowerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 830, 430, -1));
+        jPanel1.add(lowerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 840, 430, 90));
 
         mainBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Fondo.png"))); // NOI18N
         jPanel1.add(mainBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 932));
@@ -261,7 +254,9 @@ public final class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -279,44 +274,21 @@ public final class MainFrame extends javax.swing.JFrame {
         });
     }
     
-    public void methodCallingAndShowImg() {
-        Utility.SetChooserButtonImg(simulatorChooser, "Desplegable_Off");
-        Utility.SetImgWithDimension(addButton, "Mas_Off", new Dimension(18, 18));
-        Utility.SetImgWithDimension(infoButton, "Info_Off", new Dimension(18, 18));
-        
-        Utility.readCSV(questionsPanel);
-        showLauncherButtons();
-        changeButtonColor();
-        mouseEventsQuestionButtons();
+    public void initConfig() {
+        chooserPanel.setVisible(false);
+        infoPanel.setVisible(false);
+        debugText.setVisible(false);
+        addQuestionPanel.setVisible(false);
+        methodCallingAndShowImg();
     }
     
-    public void changeButtonColor() {  
-        buttonCreate.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Utility.writeCSV();
-            }
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                buttonCreate.setBackground(new Color(105, 255, 255));
-                buttonCreate.setForeground(new Color(2, 10,18));
-            }
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                buttonCreate.setBackground(new Color(2, 10,18));
-                buttonCreate.setForeground(new Color(255, 255, 255));
-            }
-            @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                buttonCreate.setBackground(new Color(2, 10,18));
-                buttonCreate.setForeground(new Color(255, 255, 255));
-            }
-            @Override
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                buttonCreate.setBackground(new Color(105, 255, 255));
-                buttonCreate.setForeground(new Color(255, 255, 255));
-            }
-        });
+    public void methodCallingAndShowImg() {
+        Utility.SetChooserButtonImg(simulatorChooser, "Desplegable_Off");
+        Utility.SetImgWithDimension(addButton, "Mas_Off", buttonDimension);
+        Utility.SetImgWithDimension(infoButton, "Info_Off", buttonDimension);
+        
+        showLauncherButtons();
+        mouseEventsQuestionButtons();
     }
     
     private boolean isInfoOn = false;
@@ -334,51 +306,55 @@ public final class MainFrame extends javax.swing.JFrame {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     if (buttons[index] == infoButton) {
                         if (isInfoOn) {
-                            Utility.SetImgWithDimension(infoButton, "Info_Off", new Dimension(18, 18));
+                            Utility.SetImgWithDimension(infoButton, "Info_Off", buttonDimension);
                             isInfoOn = false;
                             infoPanel.setVisible(false);
                         } else {
-                            Utility.SetImgWithDimension(infoButton, "Info_On", new Dimension(18, 18));
+                            Utility.SetImgWithDimension(infoButton, "Info_On", buttonDimension);
                             isInfoOn = true;
                             infoPanel.setVisible(true);
                         }
                     } else if (buttons[index] == addButton){
                         Utility.AddNewPanels(questionsPanel);
+                        
+                        simulatorChooser.getText();
+                        Utility.setDebugMessageQuestion(debugText);
                     }
                 }
                 @Override
                 public void mouseEntered(java.awt.event.MouseEvent evt) {
                     if (buttons[index] == addButton){
-                        Utility.SetImgWithDimension(addButton, "Mas_On", new Dimension(18, 18));
+                        Utility.SetImgWithDimension(addButton, "Mas_On", buttonDimension);
                     }
                 }
                 @Override
                 public void mouseExited(java.awt.event.MouseEvent evt) {
                     if (buttons[index] == addButton){
-                        Utility.SetImgWithDimension(addButton, "Mas_Off", new Dimension(18, 18));
+                        Utility.SetImgWithDimension(addButton, "Mas_Off", buttonDimension);
                     }
                 }
                 @Override
                 public void mousePressed(java.awt.event.MouseEvent evt) {
                    if (buttons[index] == addButton){
-                        Utility.SetImgWithDimension(addButton, "Mas_Off", new Dimension(18, 18));
+                        Utility.SetImgWithDimension(addButton, "Mas_Off", buttonDimension);
                     }
                 }
                 @Override
                 public void mouseReleased(java.awt.event.MouseEvent evt) {
                     if (buttons[index] == addButton){
-                        Utility.SetImgWithDimension(addButton, "Mas_On", new Dimension(18, 18));
+                        Utility.SetImgWithDimension(addButton, "Mas_On", buttonDimension);
                     }
                 }
             });
         }
     }
     
-    public void showLauncherButtons() {
-        JLabel[] buttons = {
-            selection1, selection2, selection3, selection4, selection5
-        };
-
+    private int currentIndex = -1;
+    private String rootName = "";
+    
+    public String showLauncherButtons() {
+        JLabel[] buttons = { selection1, selection2, selection3, selection4, selection5 };
+        
         for (int i = 0; i < buttons.length; i++) {
             final int index = i;
 
@@ -387,22 +363,100 @@ public final class MainFrame extends javax.swing.JFrame {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     simulatorChooser.setText(buttons[index].getText());
                     Utility.ChangeVisibilityChooserPanel(chooserPanel, simulatorChooser);
+                    Utility.clearPanelList();
+                    questionsPanel.removeAll();
+                    addQuestionPanel.setVisible(true);
+
+                    currentIndex = index;
+
+                    switch (index) {
+                        case 0 -> { 
+                            Utility.readCSV(questionsPanel, "ahoraAprendo", debugText);
+                            rootName = "ahoraAprendo";
+                        }
+                        case 1 -> {
+                            Utility.readCSV(questionsPanel, "elCazador", debugText);
+                            rootName = "elCazador";
+                        }
+                        case 2 -> {
+                            Utility.readCSV(questionsPanel, "atrapaLosUnivercoins", debugText);
+                            rootName = "atrapaLosUnivercoins";
+                        }
+                        case 3 -> {
+                            Utility.readCSV(questionsPanel, "baam", debugText);
+                            rootName = "baam";
+                        }
+                        case 4 -> {
+                            Utility.readCSV(questionsPanel, "piensoPalabra", debugText);
+                            rootName = "piensoPalabra";
+                        }
+                        default -> throw new AssertionError();
+                    }
                 }
             });
+                    
+        buttonCreate.addMouseListener(new java.awt.event.MouseAdapter() {
+            Color fontColorWhite = new Color(255, 255, 255);
+            Color bgColorTurq = new Color(105, 255, 255);
+            Color colorDarkBlue = new Color(2, 10,18);
+            
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (currentIndex != -1) {
+                    switch (currentIndex) {
+                        case 0 -> Utility.writeCSV("ahoraAprendo");
+                        case 1 -> Utility.writeCSV("elCazador");
+                        case 2 -> Utility.writeCSV("atrapaLosUnivercoins");
+                        case 3 -> Utility.writeCSV("baam");
+                        case 4 -> Utility.writeCSV("piensoPalabra");
+                        default -> throw new AssertionError();
+                    }
+                }
+                Utility.setDebugMessageQuestion(debugText, "Las preguntas han sido cargadas con éxito", new Color(0x86D295), 2);
+                
+               Timer timer = new javax.swing.Timer(2000, e -> {
+                    Utility.setDebugMessageQuestionCounter(debugText);
+                });
+                timer.setRepeats(false);
+                timer.start();
+            }
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                createButtonPanel.setBackground(bgColorTurq);
+                buttonCreate.setForeground(colorDarkBlue);
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                createButtonPanel.setBackground(colorDarkBlue);
+                buttonCreate.setForeground(fontColorWhite);
+            }
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                createButtonPanel.setBackground(colorDarkBlue);
+                buttonCreate.setForeground(fontColorWhite);
+            }
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                createButtonPanel.setBackground(bgColorTurq);
+                buttonCreate.setForeground(fontColorWhite);
+            }
+        });
         }
+        
+        return rootName;
     }
-    
+                
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addButton;
     private javax.swing.JPanel addQuestionPanel;
     private javax.swing.JLabel addQuestionText;
     private javax.swing.JLabel buttonCreate;
-    private javax.swing.JLabel chooserBackground;
-    private javax.swing.JPanel chooserPanel;
+    private RoundedPanel chooserPanel;
     private javax.swing.JPanel contentPanel;
+    private RoundedPanel createButtonPanel;
     private javax.swing.JLabel debugText;
     private javax.swing.JLabel infoButton;
-    private javax.swing.JPanel infoPanel;
+    private RoundedPanel infoPanel;
     private javax.swing.JLabel infoText1;
     private javax.swing.JLabel infoText2;
     private javax.swing.JLabel infoText3;

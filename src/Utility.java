@@ -1,8 +1,9 @@
 
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
 import javax.swing.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -63,7 +64,11 @@ public class Utility {
         jLabelButton.repaint();
     }
     
-    private static final List<ContentPanel> panelList = new ArrayList<>();
+    public static final List<ContentPanel> panelList = new ArrayList<>();
+    
+    public static void clearPanelList() {
+        panelList.clear();
+    }
     
     public static void AddNewPanels(JPanel containerPanel) {
         ContentPanel questionAnswersPanel = new ContentPanel();
@@ -90,8 +95,8 @@ public class Utility {
         System.out.println("Total de paneles en la lista: " + panelList.size());
     }
     
-    public static void writeCSV() {
-        File f = new File("src/questions.csv");
+    public static void writeCSV(String rootName) {
+        File f = new File("src/" + rootName + ".csv");
                 
         try (FileWriter fw = new FileWriter(f)) {
             for (ContentPanel questionAnswersPanel : panelList) {
@@ -104,8 +109,8 @@ public class Utility {
         }
     }
     
-    public static void readCSV(JPanel containerPanel) {
-        File f = new File("src/questions.csv");
+    public static void readCSV(JPanel containerPanel, String rootName, JLabel messageLabel) {
+        File f = new File("src/" + rootName + ".csv");
         String[] datos;
                         
         try (Scanner scFile = new Scanner(f)) {
@@ -114,18 +119,70 @@ public class Utility {
                 ContentPanel questionAnswersPanel = new ContentPanel(datos[0], datos[1], datos[2], datos[3], datos[4]);
                 
                 for (String dato : datos) {
-                    System.out.println();
+                    System.out.println(dato);
                 }
                 
                 panelList.add(questionAnswersPanel);
-                
-                containerPanel.add(panelList.get(0), 0);
-                containerPanel.revalidate();
-                containerPanel.repaint();
-                
+                containerPanel.add(questionAnswersPanel);
             }
+            containerPanel.revalidate();
+            containerPanel.repaint();
+        } catch (FileNotFoundException e) {
+            messageLabel.setVisible(true);
+
+            messageLabel.setText("No se encontró el archivo de preguntas");
+            messageLabel.setForeground(new Color (0xEB4151));
+
+            timeCounter(3, messageLabel);
         } catch (Exception e) {
             System.out.println("Se ha producido un error al escribir el archivo CSV: " + e.getMessage());
         }
+    }
+    
+    public static void timeCounter(int seconds, JLabel messageLabel) {
+        int delay = seconds * 1000;
+
+        new Timer(delay, e -> messageLabel.setVisible(false)).start();
+    }
+    
+    public static void setDebugMessageQuestion(JLabel messageLabel) {
+        messageLabel.setVisible(true);
+        int counter = panelList.size() + 1;
+
+        messageLabel.setText("Pregunta añadida correctamente (actualmente " + counter + " preguntas).");
+        messageLabel.setForeground(new Color (0xF7F7F7));
+        
+        timeCounter(1, messageLabel);
+    }
+    
+//    public static void setDebugMessageDeleteQuestion(JLabel debugText) {
+//        debugText.setVisible(true);
+//        int counter = Utility.panelList.size() - 1;
+//
+//        debugText.setText("Pregunta eliminada correctamente (actualmente " + counter + " preguntas).");
+//        debugText.setForeground(new Color(0xF7F7F7));
+//
+//        Utility.timeCounter(1, debugText);
+//    }
+    
+    public static void setDebugMessageQuestionCounter(JLabel messageLabel) {
+        timeCounter(2, messageLabel);
+        
+        messageLabel.setVisible(true);
+        int counter = panelList.size();
+
+        messageLabel.setText("Las preguntas han sido guardadas (" + counter + " en total)");
+        messageLabel.setForeground(new Color (0x86D295));
+        
+        timeCounter(2, messageLabel);
+    }
+    
+    public static void setDebugMessageQuestion(JLabel messageLabel, String text, Color color, int seconds) {
+        messageLabel.setVisible(true);
+
+        messageLabel.setText(text);
+        messageLabel.setForeground(color);
+        
+        timeCounter(seconds, messageLabel);
     }
 }
