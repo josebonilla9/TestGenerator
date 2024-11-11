@@ -1,11 +1,13 @@
+package codes;
+
 
 import java.awt.*;
 import javax.swing.*;
 
 
-public final class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame {
 
-    private Dimension buttonDimension = new Dimension(18, 18);
+    Dimension buttonDimension = new Dimension(18, 18);
     
     public MainFrame() {
         initComponents();
@@ -23,7 +25,7 @@ public final class MainFrame extends javax.swing.JFrame {
         simulatorTypeText = new javax.swing.JLabel();
         simulatorChooser = new javax.swing.JLabel();
         contentPanel = new javax.swing.JPanel();
-        chooserPanel = new RoundedPanel();
+        chooserPanel = new codes.RoundedPanel();
         selection1 = new javax.swing.JLabel();
         selection2 = new javax.swing.JLabel();
         selection3 = new javax.swing.JLabel();
@@ -33,13 +35,13 @@ public final class MainFrame extends javax.swing.JFrame {
         addQuestionText = new javax.swing.JLabel();
         addButton = new javax.swing.JLabel();
         infoButton = new javax.swing.JLabel();
-        infoPanel = new RoundedPanel();
+        infoPanel = new codes.RoundedPanel();
         infoText1 = new javax.swing.JLabel();
         infoText2 = new javax.swing.JLabel();
         infoText3 = new javax.swing.JLabel();
         questionsPanel = new javax.swing.JPanel();
         lowerPanel = new javax.swing.JPanel();
-        createButtonPanel = new RoundedPanel();
+        createButtonPanel = new codes.RoundedPanel();
         buttonCreate = new javax.swing.JLabel();
         debugText = new javax.swing.JLabel();
         mainBackground = new javax.swing.JLabel();
@@ -199,7 +201,7 @@ public final class MainFrame extends javax.swing.JFrame {
         questionsPanel.setLayout(new javax.swing.BoxLayout(questionsPanel, javax.swing.BoxLayout.PAGE_AXIS));
         contentPanel.add(questionsPanel);
 
-        jPanel1.add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 370, 670));
+        jPanel1.add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 390, 670));
 
         lowerPanel.setOpaque(false);
 
@@ -224,19 +226,22 @@ public final class MainFrame extends javax.swing.JFrame {
         lowerPanel.setLayout(lowerPanelLayout);
         lowerPanelLayout.setHorizontalGroup(
             lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lowerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(debugText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(lowerPanelLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(45, 45, 45)
                 .addComponent(createButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
-            .addComponent(debugText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         lowerPanelLayout.setVerticalGroup(
             lowerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(lowerPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lowerPanelLayout.createSequentialGroup()
                 .addComponent(createButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(debugText)
-                .addGap(0, 18, Short.MAX_VALUE))
+                .addComponent(debugText, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
         );
 
         jPanel1.add(lowerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 840, 430, 90));
@@ -266,7 +271,6 @@ public final class MainFrame extends javax.swing.JFrame {
         Utility.ChangeVisibilityChooserPanel(chooserPanel, simulatorChooser);
     }//GEN-LAST:event_simulatorChooserMouseClicked
 
-    
     public static void main(String args[]) {
        
         java.awt.EventQueue.invokeLater(() -> {
@@ -279,10 +283,7 @@ public final class MainFrame extends javax.swing.JFrame {
         infoPanel.setVisible(false);
         debugText.setVisible(false);
         addQuestionPanel.setVisible(false);
-        methodCallingAndShowImg();
-    }
-    
-    public void methodCallingAndShowImg() {
+        
         Utility.SetChooserButtonImg(simulatorChooser, "Desplegable_Off");
         Utility.SetImgWithDimension(addButton, "Mas_Off", buttonDimension);
         Utility.SetImgWithDimension(infoButton, "Info_Off", buttonDimension);
@@ -290,7 +291,7 @@ public final class MainFrame extends javax.swing.JFrame {
         showLauncherButtons();
         mouseEventsQuestionButtons();
     }
-    
+        
     private boolean isInfoOn = false;
     
     public void mouseEventsQuestionButtons() {
@@ -366,7 +367,8 @@ public final class MainFrame extends javax.swing.JFrame {
                     Utility.clearPanelList();
                     questionsPanel.removeAll();
                     addQuestionPanel.setVisible(true);
-
+                    createScrollBar();
+                    
                     currentIndex = index;
 
                     switch (index) {
@@ -414,7 +416,7 @@ public final class MainFrame extends javax.swing.JFrame {
                 }
                 Utility.setDebugMessageQuestion(debugText, "Las preguntas han sido cargadas con éxito", new Color(0x86D295), 2);
                 
-               Timer timer = new javax.swing.Timer(2000, e -> {
+               Timer timer = new javax.swing.Timer(2500, e -> {
                     Utility.setDebugMessageQuestionCounter(debugText);
                 });
                 timer.setRepeats(false);
@@ -442,21 +444,50 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         }
-        
         return rootName;
     }
+    
+    public void createScrollBar() {
+        JScrollPane scrollPane = new JScrollPane(questionsPanel);
                 
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        scrollPane.getViewport().setOpaque(false);
+        scrollPane.setOpaque(true); 
+        scrollPane.setBackground(new Color(4, 20, 37));
+
+        scrollPane.setBorder(null);
+
+        contentPanel.add(scrollPane);
+        
+        questionsPanel.revalidate();    
+        questionsPanel.repaint();
+    }
+        
+    public void setDebugMessageDeleteQuestion() {
+        debugText.setVisible(true);
+        int counter = Utility.panelList.size();
+
+        debugText.setText("Pregunta eliminada correctamente (actualmente " + counter + " preguntas).");
+        debugText.setForeground(new Color(0xF7F7F7));
+
+        Utility.timeCounter(1, debugText);
+        
+        System.out.println("Pregunta eliminada correctamente (actualmente " + counter + " preguntas).");
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel addButton;
     private javax.swing.JPanel addQuestionPanel;
     private javax.swing.JLabel addQuestionText;
     private javax.swing.JLabel buttonCreate;
-    private RoundedPanel chooserPanel;
+    private codes.RoundedPanel chooserPanel;
     private javax.swing.JPanel contentPanel;
-    private RoundedPanel createButtonPanel;
+    private codes.RoundedPanel createButtonPanel;
     private javax.swing.JLabel debugText;
     private javax.swing.JLabel infoButton;
-    private RoundedPanel infoPanel;
+    private codes.RoundedPanel infoPanel;
     private javax.swing.JLabel infoText1;
     private javax.swing.JLabel infoText2;
     private javax.swing.JLabel infoText3;

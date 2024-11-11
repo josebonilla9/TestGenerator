@@ -1,9 +1,9 @@
+package codes;
+
 
 import java.awt.*;
 import javax.swing.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,7 +12,6 @@ import java.util.Scanner;
 public class Utility {
         
     public static void SetChooserButtonImg(JLabel jLabelButtons, String name) {
-        // Carga la imagen y ajusta su tamaño al de las dimensiones del botón
         ImageIcon image = new ImageIcon("src/images/" + name + ".png");
         
         int imgWidth = image.getIconWidth();
@@ -21,7 +20,6 @@ public class Utility {
         int labelWidth = jLabelButtons.getWidth();
         int labelHeight = jLabelButtons.getHeight();
         
-        // Ajusta el tamaño basado en las proporciones
         if (imgWidth < imgHeight) {
             float proporcionWidth = (float) labelWidth / imgWidth;
             int width = Math.round(proporcionWidth * imgWidth);
@@ -38,7 +36,6 @@ public class Utility {
             jLabelButtons.setIcon(icon);
         }
         
-        // Redibuja el botón
         jLabelButtons.repaint();
     }
     
@@ -53,14 +50,12 @@ public class Utility {
     }
     
     public static void SetImgWithDimension(JLabel jLabelButton, String imgName, Dimension dimension) {
-        // Carga la imagen desde el directorio especificado
         ImageIcon image = new ImageIcon("src/images/" + imgName + ".png");
         
 
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(dimension.width, dimension.height, Image.SCALE_SMOOTH));
         jLabelButton.setIcon(icon);
         
-        // Redibuja el botón
         jLabelButton.repaint();
     }
     
@@ -96,7 +91,7 @@ public class Utility {
     }
     
     public static void writeCSV(String rootName) {
-        File f = new File("src/" + rootName + ".csv");
+        File f = new File("src/codes/" + rootName + ".csv");
                 
         try (FileWriter fw = new FileWriter(f)) {
             for (ContentPanel questionAnswersPanel : panelList) {
@@ -110,18 +105,18 @@ public class Utility {
     }
     
     public static void readCSV(JPanel containerPanel, String rootName, JLabel messageLabel) {
-        File f = new File("src/" + rootName + ".csv");
+        File f = new File("src/codes/" + rootName + ".csv");
         String[] datos;
                         
         try (Scanner scFile = new Scanner(f)) {
             while (scFile.hasNextLine()) {
+                MainFrame mainFrame = new MainFrame();
                 datos = scFile.nextLine().split(",");
-                ContentPanel questionAnswersPanel = new ContentPanel(datos[0], datos[1], datos[2], datos[3], datos[4]);
+                ContentPanel questionAnswersPanel = new ContentPanel(mainFrame, datos[0], datos[1], datos[2], datos[3], datos[4]);
                 
                 for (String dato : datos) {
                     System.out.println(dato);
                 }
-                
                 panelList.add(questionAnswersPanel);
                 containerPanel.add(questionAnswersPanel);
             }
@@ -147,7 +142,7 @@ public class Utility {
     
     public static void setDebugMessageQuestion(JLabel messageLabel) {
         messageLabel.setVisible(true);
-        int counter = panelList.size() + 1;
+        int counter = panelList.size();
 
         messageLabel.setText("Pregunta añadida correctamente (actualmente " + counter + " preguntas).");
         messageLabel.setForeground(new Color (0xF7F7F7));
@@ -155,19 +150,7 @@ public class Utility {
         timeCounter(1, messageLabel);
     }
     
-//    public static void setDebugMessageDeleteQuestion(JLabel debugText) {
-//        debugText.setVisible(true);
-//        int counter = Utility.panelList.size() - 1;
-//
-//        debugText.setText("Pregunta eliminada correctamente (actualmente " + counter + " preguntas).");
-//        debugText.setForeground(new Color(0xF7F7F7));
-//
-//        Utility.timeCounter(1, debugText);
-//    }
-    
     public static void setDebugMessageQuestionCounter(JLabel messageLabel) {
-        timeCounter(2, messageLabel);
-        
         messageLabel.setVisible(true);
         int counter = panelList.size();
 
