@@ -1,6 +1,8 @@
 package codes;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 
@@ -181,19 +183,18 @@ public final class ContentPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_minusButtonMouseClicked
 
     public void mouseEventsMinusButton() {
-        minusButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        minusButton.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(MouseEvent evt) {
         
-                mainFrame.setDebugMessageDeleteQuestion();
-                
+                mainFrame.setDebugMessageDeleteQuestion();                
             }
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+            public void mouseEntered(MouseEvent evt) {
                 Utility.SetImgWithDimension(minusButton, "Menos_On", buttonDimension);   
             }
             @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 Utility.SetImgWithDimension(minusButton, "Menos_Off", buttonDimension);   
             }
         });

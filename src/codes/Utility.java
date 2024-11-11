@@ -140,32 +140,38 @@ public class Utility {
         new Timer(delay, e -> messageLabel.setVisible(false)).start();
     }
     
-    public static void setDebugMessageQuestion(JLabel messageLabel) {
+    public static void setDebugMessageQuestion(JLabel messageLabel, int message, int timerSeconds) {
         messageLabel.setVisible(true);
         int counter = panelList.size();
+        String messageText;
+        Color color;
 
-        messageLabel.setText("Pregunta añadida correctamente (actualmente " + counter + " preguntas).");
-        messageLabel.setForeground(new Color (0xF7F7F7));
+        switch (message) {
+            case 1 -> {
+                messageText = "Pregunta añadida correctamente (actualmente " + counter + " preguntas)";
+                color = new Color (0xF7F7F7);
+            }
+            case 2 -> {
+                messageText = "Las preguntas han sido cargadas con éxito";
+                color = new Color (0x86D295);
+            }
+            case 3 -> {
+                messageText = "Las preguntas han sido guardadas (" + counter + " en total)";
+                color = new Color (0x86D295);
+            }
+            case 4 -> {
+                messageText = "Pregunta eliminada correctamente (actualmente " + counter + " preguntas)";
+                color = new Color (0xF7F7F7);
+            }
+            
+            default -> throw new AssertionError("Mensaje no reconocido: " + message);
+        }
+
+        System.out.println("Actualizando mensaje: " + messageText);
         
-        timeCounter(1, messageLabel);
-    }
-    
-    public static void setDebugMessageQuestionCounter(JLabel messageLabel) {
-        messageLabel.setVisible(true);
-        int counter = panelList.size();
-
-        messageLabel.setText("Las preguntas han sido guardadas (" + counter + " en total)");
-        messageLabel.setForeground(new Color (0x86D295));
-        
-        timeCounter(2, messageLabel);
-    }
-    
-    public static void setDebugMessageQuestion(JLabel messageLabel, String text, Color color, int seconds) {
-        messageLabel.setVisible(true);
-
-        messageLabel.setText(text);
+        messageLabel.setText(messageText);
         messageLabel.setForeground(color);
         
-        timeCounter(seconds, messageLabel);
+        timeCounter(timerSeconds, messageLabel);
     }
 }

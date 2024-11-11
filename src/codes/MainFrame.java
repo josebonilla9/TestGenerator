@@ -2,6 +2,7 @@ package codes;
 
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 
 
@@ -39,7 +40,10 @@ public class MainFrame extends javax.swing.JFrame {
         infoText1 = new javax.swing.JLabel();
         infoText2 = new javax.swing.JLabel();
         infoText3 = new javax.swing.JLabel();
+        questionScroll = new javax.swing.JScrollPane();
         questionsPanel = new javax.swing.JPanel();
+        scrollbarBig = new codes.RoundedPanel();
+        scrollbarSmall = new codes.RoundedPanel();
         lowerPanel = new javax.swing.JPanel();
         createButtonPanel = new codes.RoundedPanel();
         buttonCreate = new javax.swing.JLabel();
@@ -196,12 +200,53 @@ public class MainFrame extends javax.swing.JFrame {
 
         contentPanel.add(infoPanel);
 
-        questionsPanel.setOpaque(false);
+        questionScroll.setBackground(new java.awt.Color(4, 20, 37));
+        questionScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        questionScroll.setOpaque(false);
+        questionScroll.setPreferredSize(new java.awt.Dimension(370, 800));
+
+        questionsPanel.setBackground(new java.awt.Color(4, 20, 37));
         questionsPanel.setPreferredSize(new java.awt.Dimension(370, 800));
         questionsPanel.setLayout(new javax.swing.BoxLayout(questionsPanel, javax.swing.BoxLayout.PAGE_AXIS));
-        contentPanel.add(questionsPanel);
+        questionScroll.setViewportView(questionsPanel);
 
-        jPanel1.add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 390, 670));
+        contentPanel.add(questionScroll);
+
+        scrollbarBig.setBackground(new java.awt.Color(57, 68, 80));
+        scrollbarBig.setPreferredSize(new java.awt.Dimension(15, 800));
+
+        scrollbarSmall.setBackground(new java.awt.Color(105, 255, 255));
+        scrollbarSmall.setPreferredSize(new java.awt.Dimension(15, 100));
+
+        javax.swing.GroupLayout scrollbarSmallLayout = new javax.swing.GroupLayout(scrollbarSmall);
+        scrollbarSmall.setLayout(scrollbarSmallLayout);
+        scrollbarSmallLayout.setHorizontalGroup(
+            scrollbarSmallLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
+        );
+        scrollbarSmallLayout.setVerticalGroup(
+            scrollbarSmallLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout scrollbarBigLayout = new javax.swing.GroupLayout(scrollbarBig);
+        scrollbarBig.setLayout(scrollbarBigLayout);
+        scrollbarBigLayout.setHorizontalGroup(
+            scrollbarBigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(scrollbarBigLayout.createSequentialGroup()
+                .addComponent(scrollbarSmall, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        scrollbarBigLayout.setVerticalGroup(
+            scrollbarBigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(scrollbarBigLayout.createSequentialGroup()
+                .addComponent(scrollbarSmall, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 700, Short.MAX_VALUE))
+        );
+
+        contentPanel.add(scrollbarBig);
+
+        jPanel1.add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 430, 670));
 
         lowerPanel.setOpaque(false);
 
@@ -272,7 +317,6 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_simulatorChooserMouseClicked
 
     public static void main(String args[]) {
-       
         java.awt.EventQueue.invokeLater(() -> {
             new MainFrame().setVisible(true);
         });
@@ -283,6 +327,7 @@ public class MainFrame extends javax.swing.JFrame {
         infoPanel.setVisible(false);
         debugText.setVisible(false);
         addQuestionPanel.setVisible(false);
+        scrollbarBig.setVisible(false);
         
         Utility.SetChooserButtonImg(simulatorChooser, "Desplegable_Off");
         Utility.SetImgWithDimension(addButton, "Mas_Off", buttonDimension);
@@ -290,6 +335,8 @@ public class MainFrame extends javax.swing.JFrame {
         
         showLauncherButtons();
         mouseEventsQuestionButtons();
+        editScrollBar();
+        scrollMovement();
     }
         
     private boolean isInfoOn = false;
@@ -302,9 +349,9 @@ public class MainFrame extends javax.swing.JFrame {
         for (int i = 0; i < buttons.length; i++) {
             final int index = i;
 
-            buttons[i].addMouseListener(new java.awt.event.MouseAdapter() {
+            buttons[i].addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                public void mouseClicked(MouseEvent evt) {
                     if (buttons[index] == infoButton) {
                         if (isInfoOn) {
                             Utility.SetImgWithDimension(infoButton, "Info_Off", buttonDimension);
@@ -319,29 +366,29 @@ public class MainFrame extends javax.swing.JFrame {
                         Utility.AddNewPanels(questionsPanel);
                         
                         simulatorChooser.getText();
-                        Utility.setDebugMessageQuestion(debugText);
+                        Utility.setDebugMessageQuestion(debugText, 1, 1);
                     }
                 }
                 @Override
-                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                public void mouseEntered(MouseEvent evt) {
                     if (buttons[index] == addButton){
                         Utility.SetImgWithDimension(addButton, "Mas_On", buttonDimension);
                     }
                 }
                 @Override
-                public void mouseExited(java.awt.event.MouseEvent evt) {
+                public void mouseExited(MouseEvent evt) {
                     if (buttons[index] == addButton){
                         Utility.SetImgWithDimension(addButton, "Mas_Off", buttonDimension);
                     }
                 }
                 @Override
-                public void mousePressed(java.awt.event.MouseEvent evt) {
+                public void mousePressed(MouseEvent evt) {
                    if (buttons[index] == addButton){
                         Utility.SetImgWithDimension(addButton, "Mas_Off", buttonDimension);
                     }
                 }
                 @Override
-                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                public void mouseReleased(MouseEvent evt) {
                     if (buttons[index] == addButton){
                         Utility.SetImgWithDimension(addButton, "Mas_On", buttonDimension);
                     }
@@ -359,15 +406,16 @@ public class MainFrame extends javax.swing.JFrame {
         for (int i = 0; i < buttons.length; i++) {
             final int index = i;
 
-            buttons[i].addMouseListener(new java.awt.event.MouseAdapter() {
+            buttons[i].addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                public void mouseClicked(MouseEvent evt) {
                     simulatorChooser.setText(buttons[index].getText());
                     Utility.ChangeVisibilityChooserPanel(chooserPanel, simulatorChooser);
                     Utility.clearPanelList();
                     questionsPanel.removeAll();
                     addQuestionPanel.setVisible(true);
-                    createScrollBar();
+                    scrollbarBig.setVisible(true);
+//                    createScrollBar();
                     
                     currentIndex = index;
 
@@ -397,13 +445,13 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             });
                     
-        buttonCreate.addMouseListener(new java.awt.event.MouseAdapter() {
+        buttonCreate.addMouseListener(new MouseAdapter() {
             Color fontColorWhite = new Color(255, 255, 255);
             Color bgColorTurq = new Color(105, 255, 255);
             Color colorDarkBlue = new Color(2, 10,18);
             
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(MouseEvent evt) {
                 if (currentIndex != -1) {
                     switch (currentIndex) {
                         case 0 -> Utility.writeCSV("ahoraAprendo");
@@ -414,31 +462,31 @@ public class MainFrame extends javax.swing.JFrame {
                         default -> throw new AssertionError();
                     }
                 }
-                Utility.setDebugMessageQuestion(debugText, "Las preguntas han sido cargadas con éxito", new Color(0x86D295), 2);
+                Utility.setDebugMessageQuestion(debugText, 2, 2);
                 
-               Timer timer = new javax.swing.Timer(2500, e -> {
-                    Utility.setDebugMessageQuestionCounter(debugText);
+                Timer timer = new javax.swing.Timer(2500, e -> {
+                    Utility.setDebugMessageQuestion(debugText, 3, 2);
                 });
                 timer.setRepeats(false);
                 timer.start();
             }
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+            public void mouseEntered(MouseEvent evt) {
                 createButtonPanel.setBackground(bgColorTurq);
                 buttonCreate.setForeground(colorDarkBlue);
             }
             @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(MouseEvent evt) {
                 createButtonPanel.setBackground(colorDarkBlue);
                 buttonCreate.setForeground(fontColorWhite);
             }
             @Override
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+            public void mousePressed(MouseEvent evt) {
                 createButtonPanel.setBackground(colorDarkBlue);
                 buttonCreate.setForeground(fontColorWhite);
             }
             @Override
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
+            public void mouseReleased(MouseEvent evt) {
                 createButtonPanel.setBackground(bgColorTurq);
                 buttonCreate.setForeground(fontColorWhite);
             }
@@ -447,34 +495,56 @@ public class MainFrame extends javax.swing.JFrame {
         return rootName;
     }
     
-    public void createScrollBar() {
-        JScrollPane scrollPane = new JScrollPane(questionsPanel);
-                
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    public void editScrollBar() {
+        questionScroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) { 
+                double heightScrollPane = questionScroll.getHeight();
+                double heightPanelListadoPreguntas = questionsPanel.getHeight();
 
-        scrollPane.getViewport().setOpaque(false);
-        scrollPane.setOpaque(true); 
-        scrollPane.setBackground(new Color(4, 20, 37));
+                double porcentaje = heightScrollPane / heightPanelListadoPreguntas;
 
-        scrollPane.setBorder(null);
+                double newHeight = heightScrollPane * porcentaje;
+                double newY = e.getValue() * porcentaje;
 
-        contentPanel.add(scrollPane);
-        
-        questionsPanel.revalidate();    
-        questionsPanel.repaint();
+                scrollbarSmall.setBounds(0, (int) newY, 10, (int) newHeight);
+                scrollbarSmall.revalidate();
+                scrollbarSmall.repaint();
+            }
+        });
     }
+    
+    private int yMouse, y;
+    
+    public void scrollMovement() {
         
+        scrollbarSmall.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                yMouse = evt.getY();
+            }
+        });
+        
+        scrollbarSmall.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent evt) {
+                y = evt.getYOnScreen();
+                
+                scrollbarSmall.setLocation(scrollbarSmall.getX(), y - yMouse);
+                
+                System.out.println("Posición Inicial Y: " + yMouse);
+                System.out.println("Posición Actual Y: " + y);
+            }
+        });
+        
+        questionScroll.getVerticalScrollBar().setLocation(questionScroll.getX(), y - yMouse);
+    }
+
     public void setDebugMessageDeleteQuestion() {
-        debugText.setVisible(true);
-        int counter = Utility.panelList.size();
-
-        debugText.setText("Pregunta eliminada correctamente (actualmente " + counter + " preguntas).");
-        debugText.setForeground(new Color(0xF7F7F7));
-
-        Utility.timeCounter(1, debugText);
+        Utility.setDebugMessageQuestion(debugText, 4, 1);
         
-        System.out.println("Pregunta eliminada correctamente (actualmente " + counter + " preguntas).");
+        System.out.println("Pregunta eliminada correctamente");
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -495,7 +565,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel lowerPanel;
     private javax.swing.JLabel mainBackground;
+    private javax.swing.JScrollPane questionScroll;
     private javax.swing.JPanel questionsPanel;
+    private codes.RoundedPanel scrollbarBig;
+    private codes.RoundedPanel scrollbarSmall;
     private javax.swing.JLabel selection1;
     private javax.swing.JLabel selection2;
     private javax.swing.JLabel selection3;
