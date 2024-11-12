@@ -6,12 +6,11 @@ import java.awt.event.*;
 import javax.swing.*;
 
 
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends JFrame {
 
     Dimension buttonDimension = new Dimension(18, 18);
     
     public MainFrame() {
-        initComponents();
         initConfig();
     }
 
@@ -42,8 +41,6 @@ public class MainFrame extends javax.swing.JFrame {
         infoText3 = new javax.swing.JLabel();
         questionScroll = new javax.swing.JScrollPane();
         questionsPanel = new javax.swing.JPanel();
-        scrollbarBig = new codes.RoundedPanel();
-        scrollbarSmall = new codes.RoundedPanel();
         lowerPanel = new javax.swing.JPanel();
         createButtonPanel = new codes.RoundedPanel();
         buttonCreate = new javax.swing.JLabel();
@@ -201,50 +198,15 @@ public class MainFrame extends javax.swing.JFrame {
         contentPanel.add(infoPanel);
 
         questionScroll.setBackground(new java.awt.Color(4, 20, 37));
-        questionScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        questionScroll.setBorder(null);
         questionScroll.setOpaque(false);
-        questionScroll.setPreferredSize(new java.awt.Dimension(370, 800));
+        questionScroll.setPreferredSize(new java.awt.Dimension(390, 500));
 
         questionsPanel.setBackground(new java.awt.Color(4, 20, 37));
-        questionsPanel.setPreferredSize(new java.awt.Dimension(370, 800));
         questionsPanel.setLayout(new javax.swing.BoxLayout(questionsPanel, javax.swing.BoxLayout.PAGE_AXIS));
         questionScroll.setViewportView(questionsPanel);
 
         contentPanel.add(questionScroll);
-
-        scrollbarBig.setBackground(new java.awt.Color(57, 68, 80));
-        scrollbarBig.setPreferredSize(new java.awt.Dimension(15, 800));
-
-        scrollbarSmall.setBackground(new java.awt.Color(105, 255, 255));
-        scrollbarSmall.setPreferredSize(new java.awt.Dimension(15, 100));
-
-        javax.swing.GroupLayout scrollbarSmallLayout = new javax.swing.GroupLayout(scrollbarSmall);
-        scrollbarSmall.setLayout(scrollbarSmallLayout);
-        scrollbarSmallLayout.setHorizontalGroup(
-            scrollbarSmallLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 15, Short.MAX_VALUE)
-        );
-        scrollbarSmallLayout.setVerticalGroup(
-            scrollbarSmallLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout scrollbarBigLayout = new javax.swing.GroupLayout(scrollbarBig);
-        scrollbarBig.setLayout(scrollbarBigLayout);
-        scrollbarBigLayout.setHorizontalGroup(
-            scrollbarBigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(scrollbarBigLayout.createSequentialGroup()
-                .addComponent(scrollbarSmall, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        scrollbarBigLayout.setVerticalGroup(
-            scrollbarBigLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(scrollbarBigLayout.createSequentialGroup()
-                .addComponent(scrollbarSmall, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 700, Short.MAX_VALUE))
-        );
-
-        contentPanel.add(scrollbarBig);
 
         jPanel1.add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 430, 670));
 
@@ -317,28 +279,29 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_simulatorChooserMouseClicked
 
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> {
+        EventQueue.invokeLater(() -> {
             new MainFrame().setVisible(true);
         });
     }
     
     public void initConfig() {
+        initComponents();
         chooserPanel.setVisible(false);
         infoPanel.setVisible(false);
         debugText.setVisible(false);
         addQuestionPanel.setVisible(false);
-        scrollbarBig.setVisible(false);
         
-        Utility.SetChooserButtonImg(simulatorChooser, "Desplegable_Off");
-        Utility.SetImgWithDimension(addButton, "Mas_Off", buttonDimension);
-        Utility.SetImgWithDimension(infoButton, "Info_Off", buttonDimension);
+        Utility.SetButtonImg(simulatorChooser, "Desplegable_Off", 1, null);
+        Utility.SetButtonImg(addButton, "Mas_Off", 2, buttonDimension);
+        Utility.SetButtonImg(infoButton, "Info_Off", 2, buttonDimension);
         
         showLauncherButtons();
         mouseEventsQuestionButtons();
-        editScrollBar();
-        scrollMovement();
+        scrollBarMod();
     }
-        
+    
+    MainFrame mainFrame = this;
+    
     private boolean isInfoOn = false;
     
     public void mouseEventsQuestionButtons() {
@@ -354,16 +317,16 @@ public class MainFrame extends javax.swing.JFrame {
                 public void mouseClicked(MouseEvent evt) {
                     if (buttons[index] == infoButton) {
                         if (isInfoOn) {
-                            Utility.SetImgWithDimension(infoButton, "Info_Off", buttonDimension);
+                            Utility.SetButtonImg(infoButton, "Info_Off", 2, buttonDimension);
                             isInfoOn = false;
                             infoPanel.setVisible(false);
                         } else {
-                            Utility.SetImgWithDimension(infoButton, "Info_On", buttonDimension);
+                            Utility.SetButtonImg(infoButton, "Info_On", 2, buttonDimension);
                             isInfoOn = true;
                             infoPanel.setVisible(true);
                         }
                     } else if (buttons[index] == addButton){
-                        Utility.AddNewPanels(questionsPanel);
+                        Utility.AddNewPanels(questionsPanel, mainFrame);
                         
                         simulatorChooser.getText();
                         Utility.setDebugMessageQuestion(debugText, 1, 1);
@@ -372,25 +335,25 @@ public class MainFrame extends javax.swing.JFrame {
                 @Override
                 public void mouseEntered(MouseEvent evt) {
                     if (buttons[index] == addButton){
-                        Utility.SetImgWithDimension(addButton, "Mas_On", buttonDimension);
+                        Utility.SetButtonImg(addButton, "Mas_On", 2, buttonDimension);
                     }
                 }
                 @Override
                 public void mouseExited(MouseEvent evt) {
                     if (buttons[index] == addButton){
-                        Utility.SetImgWithDimension(addButton, "Mas_Off", buttonDimension);
+                        Utility.SetButtonImg(addButton, "Mas_Off", 2, buttonDimension);
                     }
                 }
                 @Override
                 public void mousePressed(MouseEvent evt) {
                    if (buttons[index] == addButton){
-                        Utility.SetImgWithDimension(addButton, "Mas_Off", buttonDimension);
+                        Utility.SetButtonImg(addButton, "Mas_Off", 2, buttonDimension);
                     }
                 }
                 @Override
                 public void mouseReleased(MouseEvent evt) {
                     if (buttons[index] == addButton){
-                        Utility.SetImgWithDimension(addButton, "Mas_On", buttonDimension);
+                        Utility.SetButtonImg(addButton, "Mas_On", 2, buttonDimension);
                     }
                 }
             });
@@ -414,30 +377,28 @@ public class MainFrame extends javax.swing.JFrame {
                     Utility.clearPanelList();
                     questionsPanel.removeAll();
                     addQuestionPanel.setVisible(true);
-                    scrollbarBig.setVisible(true);
-//                    createScrollBar();
                     
                     currentIndex = index;
 
                     switch (index) {
                         case 0 -> { 
-                            Utility.readCSV(questionsPanel, "ahoraAprendo", debugText);
+                            Utility.readCSV(questionsPanel, "ahoraAprendo", debugText, mainFrame);
                             rootName = "ahoraAprendo";
                         }
                         case 1 -> {
-                            Utility.readCSV(questionsPanel, "elCazador", debugText);
+                            Utility.readCSV(questionsPanel, "elCazador", debugText, mainFrame);
                             rootName = "elCazador";
                         }
                         case 2 -> {
-                            Utility.readCSV(questionsPanel, "atrapaLosUnivercoins", debugText);
+                            Utility.readCSV(questionsPanel, "atrapaLosUnivercoins", debugText, mainFrame);
                             rootName = "atrapaLosUnivercoins";
                         }
                         case 3 -> {
-                            Utility.readCSV(questionsPanel, "baam", debugText);
+                            Utility.readCSV(questionsPanel, "baam", debugText, mainFrame);
                             rootName = "baam";
                         }
                         case 4 -> {
-                            Utility.readCSV(questionsPanel, "piensoPalabra", debugText);
+                            Utility.readCSV(questionsPanel, "piensoPalabra", debugText, mainFrame);
                             rootName = "piensoPalabra";
                         }
                         default -> throw new AssertionError();
@@ -495,56 +456,35 @@ public class MainFrame extends javax.swing.JFrame {
         return rootName;
     }
     
-    public void editScrollBar() {
-        questionScroll.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) { 
-                double heightScrollPane = questionScroll.getHeight();
-                double heightPanelListadoPreguntas = questionsPanel.getHeight();
-
-                double porcentaje = heightScrollPane / heightPanelListadoPreguntas;
-
-                double newHeight = heightScrollPane * porcentaje;
-                double newY = e.getValue() * porcentaje;
-
-                scrollbarSmall.setBounds(0, (int) newY, 10, (int) newHeight);
-                scrollbarSmall.revalidate();
-                scrollbarSmall.repaint();
-            }
-        });
+    public void scrollBarMod() {
+        questionScroll.setVerticalScrollBar(new CustomScrollBar());
     }
     
-    private int yMouse, y;
-    
-    public void scrollMovement() {
-        
-        scrollbarSmall.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                yMouse = evt.getY();
+    public void setDebugMessages(int i) {
+        switch (i) {
+            case 1 -> {
+                Utility.setDebugMessageQuestion(debugText, 4, 1);
+                break;
             }
-        });
-        
-        scrollbarSmall.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent evt) {
-                y = evt.getYOnScreen();
-                
-                scrollbarSmall.setLocation(scrollbarSmall.getX(), y - yMouse);
-                
-                System.out.println("Posición Inicial Y: " + yMouse);
-                System.out.println("Posición Actual Y: " + y);
+            case 2 -> {
+                Utility.setDebugMessageQuestion(debugText, 5, 3);
+                break;
             }
-        });
+            case 3 -> {
+                Utility.setDebugMessageQuestion(debugText, 6, 3);
+                break;
+            }
+            case 4 -> {
+                Utility.setDebugMessageQuestion(debugText, 7, 2);
+                break;
+            }
+            case 5 -> {
+                Utility.setDebugMessageQuestion(debugText, 8, 2);
+                break;
+            }
+            default -> throw new AssertionError("Mensaje no reconocido");
+        }
         
-        questionScroll.getVerticalScrollBar().setLocation(questionScroll.getX(), y - yMouse);
-    }
-
-    public void setDebugMessageDeleteQuestion() {
-        Utility.setDebugMessageQuestion(debugText, 4, 1);
-        
-        System.out.println("Pregunta eliminada correctamente");
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -567,8 +507,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel mainBackground;
     private javax.swing.JScrollPane questionScroll;
     private javax.swing.JPanel questionsPanel;
-    private codes.RoundedPanel scrollbarBig;
-    private codes.RoundedPanel scrollbarSmall;
     private javax.swing.JLabel selection1;
     private javax.swing.JLabel selection2;
     private javax.swing.JLabel selection3;

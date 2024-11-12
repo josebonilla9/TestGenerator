@@ -1,12 +1,11 @@
 package codes;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import javax.swing.*;
 
 
-public final class ContentPanel extends javax.swing.JPanel {
+public final class ContentPanel extends JPanel {
     
     private String question;
     private String correctAnswer;
@@ -14,22 +13,18 @@ public final class ContentPanel extends javax.swing.JPanel {
     private String incorrectAnswer2;
     private String incorrectAnswer3;
     
-    MainFrame mainFrame = new MainFrame();
+    public MainFrame mainFrame;
     
     private Dimension buttonDimension = new Dimension(12, 12);
             
     public ContentPanel() {
-        initComponents();
-        Utility.SetImgWithDimension(minusButton, "Menos_Off", buttonDimension);
-        mouseEventsMinusButton();
+        initConfig();
     }
 
     public ContentPanel(MainFrame mainFrame, String question, String correctAnswer, String incorrectAnswer1, String incorrectAnswer2, String incorrectAnswer3) {
-        this.mainFrame = mainFrame;
-        initComponents();
-        Utility.SetImgWithDimension(minusButton, "Menos_Off", buttonDimension);
-        mouseEventsMinusButton();
+        initConfig();
         
+        this.mainFrame = mainFrame;
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.incorrectAnswer1 = incorrectAnswer1;
@@ -49,6 +44,7 @@ public final class ContentPanel extends javax.swing.JPanel {
         incorrectAnswer1 = incorrectAnswerText1.getText();
         incorrectAnswer2 = incorrectAnswerText2.getText();
         incorrectAnswer3 = incorrectAnswerText3.getText();
+        
         return question + "," + correctAnswer + "," + incorrectAnswer1 + "," + incorrectAnswer2 + "," + incorrectAnswer3;
     }
 
@@ -56,12 +52,12 @@ public final class ContentPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        newQuestionPanel = new javax.swing.JPanel();
+        newQuestionPanel = new codes.RoundedPanel();
         questionPanel = new javax.swing.JPanel();
         questionTitle = new javax.swing.JLabel();
         minusButton = new javax.swing.JLabel();
         questionText = new javax.swing.JTextField();
-        answersPanel = new javax.swing.JPanel();
+        answersPanel1 = new javax.swing.JPanel();
         correctAnswerTitle = new javax.swing.JLabel();
         correctAnswerText = new javax.swing.JTextField();
         incorrectAnswerTitle = new javax.swing.JLabel();
@@ -70,11 +66,12 @@ public final class ContentPanel extends javax.swing.JPanel {
         incorrectAnswerText3 = new javax.swing.JTextField();
 
         setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(370, 500));
+        setPreferredSize(new java.awt.Dimension(370, 225));
         setRequestFocusEnabled(false);
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         newQuestionPanel.setBackground(new java.awt.Color(26, 40, 55));
+        newQuestionPanel.setPreferredSize(new java.awt.Dimension(370, 190));
         newQuestionPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         questionPanel.setOpaque(false);
@@ -110,14 +107,14 @@ public final class ContentPanel extends javax.swing.JPanel {
 
         newQuestionPanel.add(questionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 50));
 
-        answersPanel.setOpaque(false);
+        answersPanel1.setOpaque(false);
 
         correctAnswerTitle.setFont(new java.awt.Font("Raleway", 0, 10)); // NOI18N
         correctAnswerTitle.setForeground(new java.awt.Color(255, 255, 255));
         correctAnswerTitle.setText("Respuesta correcta");
         correctAnswerTitle.setToolTipText("");
         correctAnswerTitle.setPreferredSize(new java.awt.Dimension(350, 12));
-        answersPanel.add(correctAnswerTitle);
+        answersPanel1.add(correctAnswerTitle);
 
         correctAnswerText.setBackground(new java.awt.Color(72, 82, 93));
         correctAnswerText.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
@@ -128,14 +125,14 @@ public final class ContentPanel extends javax.swing.JPanel {
         correctAnswerText.setMargin(new java.awt.Insets(2, 20, 2, 6));
         correctAnswerText.setOpaque(true);
         correctAnswerText.setPreferredSize(new java.awt.Dimension(350, 20));
-        answersPanel.add(correctAnswerText);
+        answersPanel1.add(correctAnswerText);
 
         incorrectAnswerTitle.setFont(new java.awt.Font("Raleway", 0, 10)); // NOI18N
         incorrectAnswerTitle.setForeground(new java.awt.Color(255, 255, 255));
         incorrectAnswerTitle.setText("Respuesta incorrecta");
         incorrectAnswerTitle.setToolTipText("");
         incorrectAnswerTitle.setPreferredSize(new java.awt.Dimension(350, 12));
-        answersPanel.add(incorrectAnswerTitle);
+        answersPanel1.add(incorrectAnswerTitle);
 
         incorrectAnswerText1.setBackground(new java.awt.Color(72, 82, 93));
         incorrectAnswerText1.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
@@ -146,7 +143,7 @@ public final class ContentPanel extends javax.swing.JPanel {
         incorrectAnswerText1.setMargin(new java.awt.Insets(2, 20, 2, 6));
         incorrectAnswerText1.setOpaque(true);
         incorrectAnswerText1.setPreferredSize(new java.awt.Dimension(350, 20));
-        answersPanel.add(incorrectAnswerText1);
+        answersPanel1.add(incorrectAnswerText1);
 
         incorrectAnswerText2.setBackground(new java.awt.Color(72, 82, 93));
         incorrectAnswerText2.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
@@ -157,7 +154,7 @@ public final class ContentPanel extends javax.swing.JPanel {
         incorrectAnswerText2.setMargin(new java.awt.Insets(2, 20, 2, 6));
         incorrectAnswerText2.setOpaque(true);
         incorrectAnswerText2.setPreferredSize(new java.awt.Dimension(350, 20));
-        answersPanel.add(incorrectAnswerText2);
+        answersPanel1.add(incorrectAnswerText2);
 
         incorrectAnswerText3.setBackground(new java.awt.Color(72, 82, 93));
         incorrectAnswerText3.setFont(new java.awt.Font("Raleway", 0, 12)); // NOI18N
@@ -168,11 +165,11 @@ public final class ContentPanel extends javax.swing.JPanel {
         incorrectAnswerText3.setMargin(new java.awt.Insets(2, 20, 2, 6));
         incorrectAnswerText3.setOpaque(true);
         incorrectAnswerText3.setPreferredSize(new java.awt.Dimension(350, 20));
-        answersPanel.add(incorrectAnswerText3);
+        answersPanel1.add(incorrectAnswerText3);
 
-        newQuestionPanel.add(answersPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 370, 140));
+        newQuestionPanel.add(answersPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 370, 140));
 
-        add(newQuestionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 370, 200));
+        add(newQuestionPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, 200));
     }// </editor-fold>//GEN-END:initComponents
 
     private void minusButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minusButtonMouseClicked
@@ -182,26 +179,32 @@ public final class ContentPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_minusButtonMouseClicked
 
+    public void initConfig() {
+        initComponents();
+        Utility.SetButtonImg(minusButton, "Menos_Off", 2, buttonDimension);
+        mouseEventsMinusButton();
+    }
+    
     public void mouseEventsMinusButton() {
         minusButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
         
-                mainFrame.setDebugMessageDeleteQuestion();                
+                mainFrame.setDebugMessages(1);                
             }
             @Override
             public void mouseEntered(MouseEvent evt) {
-                Utility.SetImgWithDimension(minusButton, "Menos_On", buttonDimension);   
+                Utility.SetButtonImg(minusButton, "Menos_Off", 2, buttonDimension);
             }
             @Override
             public void mouseExited(MouseEvent evt) {
-                Utility.SetImgWithDimension(minusButton, "Menos_Off", buttonDimension);   
+                Utility.SetButtonImg(minusButton, "Menos_Off", 2, buttonDimension); 
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel answersPanel;
+    private javax.swing.JPanel answersPanel1;
     private javax.swing.JTextField correctAnswerText;
     private javax.swing.JLabel correctAnswerTitle;
     private javax.swing.JTextField incorrectAnswerText1;
@@ -209,7 +212,7 @@ public final class ContentPanel extends javax.swing.JPanel {
     private javax.swing.JTextField incorrectAnswerText3;
     private javax.swing.JLabel incorrectAnswerTitle;
     private javax.swing.JLabel minusButton;
-    private javax.swing.JPanel newQuestionPanel;
+    private codes.RoundedPanel newQuestionPanel;
     private javax.swing.JPanel questionPanel;
     private javax.swing.JTextField questionText;
     private javax.swing.JLabel questionTitle;
