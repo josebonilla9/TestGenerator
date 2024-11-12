@@ -36,6 +36,24 @@ public final class ContentPanel extends JPanel {
         incorrectAnswerText1.setText(incorrectAnswer1);
         incorrectAnswerText2.setText(incorrectAnswer2);
         incorrectAnswerText3.setText(incorrectAnswer3);
+        
+        adjustFontSizeToFit(questionText);
+        adjustFontSizeToFit(correctAnswerText);
+        adjustFontSizeToFit(incorrectAnswerText1);
+        adjustFontSizeToFit(incorrectAnswerText2);
+        adjustFontSizeToFit(incorrectAnswerText3);
+    }
+
+    private void adjustFontSizeToFit(JTextField textField) {
+        Font font = textField.getFont();
+        FontMetrics metrics = textField.getFontMetrics(font);
+        int fieldWidth = 350;
+
+        while (metrics.stringWidth(textField.getText()) > fieldWidth && font.getSize() > 10) {
+            font = font.deriveFont((float) font.getSize() - 1);
+            textField.setFont(font);
+            metrics = textField.getFontMetrics(font);
+        }
     }
     
     public String toCSV() {

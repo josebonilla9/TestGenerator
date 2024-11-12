@@ -200,7 +200,7 @@ public class MainFrame extends JFrame {
         questionScroll.setBackground(new java.awt.Color(4, 20, 37));
         questionScroll.setBorder(null);
         questionScroll.setOpaque(false);
-        questionScroll.setPreferredSize(new java.awt.Dimension(390, 500));
+        questionScroll.setPreferredSize(new java.awt.Dimension(390, 620));
 
         questionsPanel.setBackground(new java.awt.Color(4, 20, 37));
         questionsPanel.setLayout(new javax.swing.BoxLayout(questionsPanel, javax.swing.BoxLayout.PAGE_AXIS));

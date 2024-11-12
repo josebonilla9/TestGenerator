@@ -12,8 +12,8 @@ import java.util.Scanner;
 public class Utility {
         
     public static void SetButtonImg(JLabel jLabelButton, String imgName, int pointer, Dimension dimension) {
-        int width;
-        int height;
+        int width = 0;
+        int height = 0;
                         
         ImageIcon image = new ImageIcon("src/images/" + imgName + ".png");
         
@@ -23,13 +23,11 @@ public class Utility {
             int labelWidth = jLabelButton.getWidth();
             int labelHeight = jLabelButton.getHeight();
 
-            float proportion = (imgWidth < imgHeight) 
-                    ? (float) labelWidth / imgWidth 
-                    : (float) labelHeight / imgHeight;
+            float proportion = (imgWidth < imgHeight) ? (float) labelWidth / imgWidth : (float) labelHeight / imgHeight;
 
             width = Math.round(proportion * imgWidth);
             height = Math.round(proportion * imgHeight);
-        } else {
+        } else if (pointer == 2) {
             width = dimension.width;
             height = dimension.height;
         }
@@ -62,7 +60,7 @@ public class Utility {
         
         panelList.add(questionAnswersPanel);
         
-        containerPanel.add(questionAnswersPanel);
+        containerPanel.add(questionAnswersPanel, 0);
         containerPanel.revalidate();
         containerPanel.repaint();
     }
@@ -177,8 +175,6 @@ public class Utility {
             }
             default -> throw new AssertionError("Mensaje no reconocido: " + message);
         }
-
-        System.out.println("Actualizando mensaje: " + messageText);
         
         messageLabel.setText(messageText);
         messageLabel.setForeground(color);
