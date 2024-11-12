@@ -280,7 +280,9 @@ public class MainFrame extends JFrame {
 
     public static void main(String args[]) {
         EventQueue.invokeLater(() -> {
-            new MainFrame().setVisible(true);
+            MainFrame frame = new MainFrame();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);  
         });
     }
     
@@ -484,7 +486,6 @@ public class MainFrame extends JFrame {
             }
             default -> throw new AssertionError("Mensaje no reconocido");
         }
-        
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

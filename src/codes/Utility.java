@@ -17,19 +17,24 @@ public class Utility {
                         
         ImageIcon image = new ImageIcon("src/images/" + imgName + ".png");
         
-        if (pointer == 1) {
-            int imgWidth = image.getIconWidth();
-            int imgHeight = image.getIconHeight();
-            int labelWidth = jLabelButton.getWidth();
-            int labelHeight = jLabelButton.getHeight();
+        switch (pointer) {
+            case 1 -> {
+                int imgWidth = image.getIconWidth();
+                int imgHeight = image.getIconHeight();
+                int labelWidth = jLabelButton.getWidth();
+                int labelHeight = jLabelButton.getHeight();
 
-            float proportion = (imgWidth < imgHeight) ? (float) labelWidth / imgWidth : (float) labelHeight / imgHeight;
+                float proportion = (imgWidth < imgHeight) ? (float) labelWidth / imgWidth : (float) labelHeight / imgHeight;
 
-            width = Math.round(proportion * imgWidth);
-            height = Math.round(proportion * imgHeight);
-        } else if (pointer == 2) {
-            width = dimension.width;
-            height = dimension.height;
+                width = Math.round(proportion * imgWidth);
+                height = Math.round(proportion * imgHeight);
+                break;
+            }
+            case 2 -> {
+                width = dimension.width;
+                height = dimension.height;
+                break;
+            }
         }
         
         Icon icon = new ImageIcon(image.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
