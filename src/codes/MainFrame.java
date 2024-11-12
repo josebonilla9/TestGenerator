@@ -275,7 +275,7 @@ public class MainFrame extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void simulatorChooserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_simulatorChooserMouseClicked
-        Utility.ChangeVisibilityChooserPanel(chooserPanel, simulatorChooser);
+        Utility.toggleChooserPanelVisibility(chooserPanel, simulatorChooser);
     }//GEN-LAST:event_simulatorChooserMouseClicked
 
     public static void main(String args[]) {
@@ -293,9 +293,9 @@ public class MainFrame extends JFrame {
         debugText.setVisible(false);
         addQuestionPanel.setVisible(false);
         
-        Utility.SetButtonImg(simulatorChooser, "Desplegable_Off", 1, null);
-        Utility.SetButtonImg(addButton, "Mas_Off", 2, buttonDimension);
-        Utility.SetButtonImg(infoButton, "Info_Off", 2, buttonDimension);
+        Utility.setButtonImg(simulatorChooser, "Desplegable_Off", 1, null);
+        Utility.setButtonImg(addButton, "Mas_Off", 2, buttonDimension);
+        Utility.setButtonImg(infoButton, "Info_Off", 2, buttonDimension);
         
         showLauncherButtons();
         mouseEventsQuestionButtons();
@@ -307,185 +307,130 @@ public class MainFrame extends JFrame {
     private boolean isInfoOn = false;
     
     public void mouseEventsQuestionButtons() {
-        JLabel[] buttons = {
-            addButton, infoButton
-        };
+        JLabel[] buttons = { addButton, infoButton };
 
-        for (int i = 0; i < buttons.length; i++) {
-            final int index = i;
-
-            buttons[i].addMouseListener(new MouseAdapter() {
+        for (JLabel button : buttons) {
+            button.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent evt) {
-                    if (buttons[index] == infoButton) {
-                        if (isInfoOn) {
-                            Utility.SetButtonImg(infoButton, "Info_Off", 2, buttonDimension);
-                            isInfoOn = false;
-                            infoPanel.setVisible(false);
-                        } else {
-                            Utility.SetButtonImg(infoButton, "Info_On", 2, buttonDimension);
-                            isInfoOn = true;
-                            infoPanel.setVisible(true);
-                        }
-                    } else if (buttons[index] == addButton){
-                        Utility.AddNewPanels(questionsPanel, mainFrame);
-                        
-                        simulatorChooser.getText();
-                        Utility.setDebugMessageQuestion(debugText, 1, 1);
+                    if (button == infoButton) {
+                        toggleInfoPanel();
+                    } else if (button == addButton) {
+                        Utility.addNewPanel(questionsPanel, mainFrame);
+                        Utility.setDebugMessage(debugText, 1, 1);
                     }
                 }
                 @Override
                 public void mouseEntered(MouseEvent evt) {
-                    if (buttons[index] == addButton){
-                        Utility.SetButtonImg(addButton, "Mas_On", 2, buttonDimension);
-                    }
+                    if (button == addButton) Utility.setButtonImg(addButton, "Mas_On", 2, buttonDimension);
                 }
                 @Override
                 public void mouseExited(MouseEvent evt) {
-                    if (buttons[index] == addButton){
-                        Utility.SetButtonImg(addButton, "Mas_Off", 2, buttonDimension);
-                    }
+                    if (button == addButton) Utility.setButtonImg(addButton, "Mas_Off", 2, buttonDimension);
                 }
                 @Override
                 public void mousePressed(MouseEvent evt) {
-                   if (buttons[index] == addButton){
-                        Utility.SetButtonImg(addButton, "Mas_Off", 2, buttonDimension);
-                    }
+                    if (button == addButton) Utility.setButtonImg(addButton, "Mas_Off", 2, buttonDimension);
                 }
                 @Override
                 public void mouseReleased(MouseEvent evt) {
-                    if (buttons[index] == addButton){
-                        Utility.SetButtonImg(addButton, "Mas_On", 2, buttonDimension);
-                    }
+                    if (button == addButton) Utility.setButtonImg(addButton, "Mas_On", 2, buttonDimension);
                 }
             });
         }
     }
+
+    private void toggleInfoPanel() {
+        isInfoOn = !isInfoOn;
+        Utility.setButtonImg(infoButton, isInfoOn ? "Info_On" : "Info_Off", 2, buttonDimension);
+        infoPanel.setVisible(isInfoOn);
+    }
     
     private int currentIndex = -1;
     private String rootName = "";
+    private JLabel[] buttons;
     
     public String showLauncherButtons() {
-        JLabel[] buttons = { selection1, selection2, selection3, selection4, selection5 };
-        
+        buttons = new JLabel[] { selection1, selection2, selection3, selection4, selection5 };
+
         for (int i = 0; i < buttons.length; i++) {
             final int index = i;
-
             buttons[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent evt) {
-                    simulatorChooser.setText(buttons[index].getText());
-                    Utility.ChangeVisibilityChooserPanel(chooserPanel, simulatorChooser);
-                    Utility.clearPanelList();
-                    questionsPanel.removeAll();
-                    addQuestionPanel.setVisible(true);
-                    
-                    currentIndex = index;
-
-                    switch (index) {
-                        case 0 -> { 
-                            Utility.readCSV(questionsPanel, "ahoraAprendo", debugText, mainFrame);
-                            rootName = "ahoraAprendo";
-                        }
-                        case 1 -> {
-                            Utility.readCSV(questionsPanel, "elCazador", debugText, mainFrame);
-                            rootName = "elCazador";
-                        }
-                        case 2 -> {
-                            Utility.readCSV(questionsPanel, "atrapaLosUnivercoins", debugText, mainFrame);
-                            rootName = "atrapaLosUnivercoins";
-                        }
-                        case 3 -> {
-                            Utility.readCSV(questionsPanel, "baam", debugText, mainFrame);
-                            rootName = "baam";
-                        }
-                        case 4 -> {
-                            Utility.readCSV(questionsPanel, "piensoPalabra", debugText, mainFrame);
-                            rootName = "piensoPalabra";
-                        }
-                        default -> throw new AssertionError();
-                    }
+                    updateLauncherSelection(index);
                 }
             });
-                    
+        }
+
         buttonCreate.addMouseListener(new MouseAdapter() {
-            Color fontColorWhite = new Color(255, 255, 255);
-            Color bgColorTurq = new Color(105, 255, 255);
-            Color colorDarkBlue = new Color(2, 10,18);
-            
+            private final Color fontColorWhite = Color.WHITE;
+            private final Color bgColorTurq = new Color(105, 255, 255);
+            private final Color colorDarkBlue = new Color(2, 10, 18);
+
             @Override
             public void mouseClicked(MouseEvent evt) {
                 if (currentIndex != -1) {
-                    switch (currentIndex) {
-                        case 0 -> Utility.writeCSV("ahoraAprendo");
-                        case 1 -> Utility.writeCSV("elCazador");
-                        case 2 -> Utility.writeCSV("atrapaLosUnivercoins");
-                        case 3 -> Utility.writeCSV("baam");
-                        case 4 -> Utility.writeCSV("piensoPalabra");
-                        default -> throw new AssertionError();
-                    }
+                    Utility.writeCSV(rootName);
                 }
-                Utility.setDebugMessageQuestion(debugText, 2, 2);
-                
-                Timer timer = new javax.swing.Timer(2500, e -> {
-                    Utility.setDebugMessageQuestion(debugText, 3, 2);
-                });
+                Utility.setDebugMessage(debugText, 2, 2);
+
+                Timer timer = new Timer(2500, e -> Utility.setDebugMessage(debugText, 3, 2));
                 timer.setRepeats(false);
                 timer.start();
             }
             @Override
             public void mouseEntered(MouseEvent evt) {
-                createButtonPanel.setBackground(bgColorTurq);
-                buttonCreate.setForeground(colorDarkBlue);
+                setButtonCreateColors(bgColorTurq, colorDarkBlue);
             }
             @Override
             public void mouseExited(MouseEvent evt) {
-                createButtonPanel.setBackground(colorDarkBlue);
-                buttonCreate.setForeground(fontColorWhite);
+                setButtonCreateColors(colorDarkBlue, fontColorWhite);
             }
             @Override
             public void mousePressed(MouseEvent evt) {
-                createButtonPanel.setBackground(colorDarkBlue);
-                buttonCreate.setForeground(fontColorWhite);
+                setButtonCreateColors(colorDarkBlue, fontColorWhite);
             }
             @Override
             public void mouseReleased(MouseEvent evt) {
-                createButtonPanel.setBackground(bgColorTurq);
-                buttonCreate.setForeground(fontColorWhite);
+                setButtonCreateColors(bgColorTurq, fontColorWhite);
             }
         });
-        }
         return rootName;
     }
-    
+
+    private void updateLauncherSelection(int index) {
+        simulatorChooser.setText(buttons[index].getText());
+        Utility.toggleChooserPanelVisibility(chooserPanel, simulatorChooser);
+        Utility.clearPanelList();
+        questionsPanel.removeAll();
+        addQuestionPanel.setVisible(true);
+
+        currentIndex = index;
+        rootName = switch (index) {
+            case 0 -> "ahoraAprendo";
+            case 1 -> "elCazador";
+            case 2 -> "atrapaLosUnivercoins";
+            case 3 -> "baam";
+            case 4 -> "piensoPalabra";
+            default -> throw new AssertionError();
+        };
+
+        Utility.readCSV(questionsPanel, rootName, debugText, mainFrame);
+    }
+
+    private void setButtonCreateColors(Color bg, Color fg) {
+        createButtonPanel.setBackground(bg);
+        buttonCreate.setForeground(fg);
+    }
+
     public void scrollBarMod() {
         questionScroll.setVerticalScrollBar(new CustomScrollBar());
     }
-    
+
     public void setDebugMessages(int i) {
-        switch (i) {
-            case 1 -> {
-                Utility.setDebugMessageQuestion(debugText, 4, 1);
-                break;
-            }
-            case 2 -> {
-                Utility.setDebugMessageQuestion(debugText, 5, 3);
-                break;
-            }
-            case 3 -> {
-                Utility.setDebugMessageQuestion(debugText, 6, 3);
-                break;
-            }
-            case 4 -> {
-                Utility.setDebugMessageQuestion(debugText, 7, 2);
-                break;
-            }
-            case 5 -> {
-                Utility.setDebugMessageQuestion(debugText, 8, 2);
-                break;
-            }
-            default -> throw new AssertionError("Mensaje no reconocido");
-        }
+        int[][] messages = {{4, 1}, {5, 3}, {6, 3}, {7, 2}, {8, 2}};
+        Utility.setDebugMessage(debugText, messages[i - 1][0], messages[i - 1][1]);
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

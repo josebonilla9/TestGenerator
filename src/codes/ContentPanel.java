@@ -181,13 +181,13 @@ public final class ContentPanel extends JPanel {
     private void minusButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minusButtonMouseClicked
         JPanel parent = (JPanel) this.getParent();
         if (parent != null) {
-            Utility.RemovePanel(this, parent);
+            Utility.removePanel(this, parent);
         }
     }//GEN-LAST:event_minusButtonMouseClicked
 
     public void initConfig() {
         initComponents();
-        Utility.SetButtonImg(minusButton, "Menos_Off", 2, buttonDimension);
+        Utility.setButtonImg(minusButton, "Menos_Off", 2, buttonDimension);
         mouseEventsMinusButton();
     }
     
@@ -200,11 +200,11 @@ public final class ContentPanel extends JPanel {
             }
             @Override
             public void mouseEntered(MouseEvent evt) {
-                Utility.SetButtonImg(minusButton, "Menos_Off", 2, buttonDimension);
+                Utility.setButtonImg(minusButton, "Menos_Off", 2, buttonDimension);
             }
             @Override
             public void mouseExited(MouseEvent evt) {
-                Utility.SetButtonImg(minusButton, "Menos_Off", 2, buttonDimension); 
+                Utility.setButtonImg(minusButton, "Menos_Off", 2, buttonDimension); 
             }
         });
     }
