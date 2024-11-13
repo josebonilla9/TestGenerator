@@ -42,11 +42,8 @@ public class ScrollBarUI extends BasicScrollBarUI {
         Graphics2D g2 = (Graphics2D) grphcs;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         int orientation = scrollbar.getOrientation();
-        int size;
-        int x;
-        int y;
-        int width;
-        int height;
+        int size, x, y, width, height;
+        
         if (orientation == JScrollBar.VERTICAL) {
             size = rctngl.width / 2;
             x = rctngl.x + ((rctngl.width - size) / 2);
@@ -72,9 +69,10 @@ public class ScrollBarUI extends BasicScrollBarUI {
         int y = rctngl.y;
         int width = rctngl.width;
         int height = rctngl.height;
+        
         if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-            y += 8;
-            height -= 16;
+            y += 0;
+            height -= 0;
         } else {
             x += 8;
             width -= 16;
@@ -88,7 +86,6 @@ public class ScrollBarUI extends BasicScrollBarUI {
         public ScrollBarButton() {
             setBorder(BorderFactory.createEmptyBorder());
         }
-
         @Override
         public void paint(Graphics grphcs) {
         }
