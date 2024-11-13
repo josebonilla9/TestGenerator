@@ -7,6 +7,8 @@ import java.io.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 
 public class Utility {
@@ -55,15 +57,48 @@ public class Utility {
         containerPanel.repaint();
     }
     
+
     public static void writeCSV(String rootName) {
-        try (FileWriter fw = new FileWriter("src/codes/" + rootName + ".csv")) {
-            for (ContentPanel panel : panelList) {
-                if (panel != null) fw.write(panel.toCSV() + "\n");
+        File csvFile = new File("src/codes/" + rootName + ".csv");
+        File zipFile = new File("../TestGenerator/" + rootName + ".zip");
+
+        try {
+            try (FileWriter fw = new FileWriter(csvFile)) {
+                for (ContentPanel panel : panelList) {
+                    if (panel != null) fw.write(panel.toCSV() + "\n");
+                }
             }
+            catch (Exception e) {
+//                mainFrame.setDebugMessages(9);
+            }
+
+            try (FileOutputStream fos = new FileOutputStream(zipFile);
+                 ZipOutputStream zos = new ZipOutputStream(fos);
+                 FileInputStream fis = new FileInputStream(csvFile)) {
+
+                ZipEntry zipEntry = new ZipEntry(csvFile.getName());
+                zos.putNextEntry(zipEntry);
+
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = fis.read(buffer)) >= 0) {
+                    zos.write(buffer, 0, length);
+                }
+                zos.closeEntry();
+//                mainFrame.setDebugMessages(11);
+            }
+            catch (Exception e) {
+//                mainFrame.setDebugMessages(10);
+            }
+            
+            System.out.println("Archivo CSV y ZIP creados exitosamente");
+
         } catch (Exception e) {
-            System.out.println("Error al escribir el archivo CSV: " + e.getMessage());
+            System.out.println("Error al escribir el archivo CSV o crear el archivo ZIP: " + e.getMessage());
         }
     }
+
+
     
     public static void readCSV(JPanel containerPanel, String rootName, JLabel messageLabel, MainFrame mainFrame) {
         File file = new File("src/codes/" + rootName + ".csv");
@@ -90,8 +125,19 @@ public class Utility {
         }
     }
     
+    private static Timer currentTimer;
+
     public static void startTimer(int seconds, JLabel messageLabel) {
-        new Timer(seconds * 1000, e -> messageLabel.setVisible(false)).start();
+        if (currentTimer != null) {
+            currentTimer.stop();
+        }
+        
+        currentTimer = new Timer(seconds * 1000, e -> {
+            messageLabel.setVisible(false);
+            currentTimer = null;
+        });
+        currentTimer.setRepeats(false);
+        currentTimer.start();
     }
     
     public static void setDebugMessage(JLabel messageLabel, int messageCode, int timerSeconds) {
@@ -103,16 +149,19 @@ public class Utility {
             "Error en la estructura del archivo de preguntas",
             "No se encontró el archivo de preguntas",
             "Este simulador no tiene preguntas",
-            "Algunas preguntas están vacías"
+            "Algunas preguntas están vacías",
+            "No se pudo crear el archivo de preguntas",
+            "Las preguntas se guardaron, pero no se pudo comprimir el simulador",
+            "Las preguntas se guardaron y se exportó el simulador en: X/X.zip"
         };
         Color[] colors = {Color.WHITE, new Color(0x86D295), Color.RED, new Color(0xFF9C00)};
         
         String messageText = messages[messageCode - 1] + (messageCode == 1 || messageCode == 4 ? " (actualmente " + panelList.size() + " preguntas)" : "");
         Color color = switch (messageCode) {
             case 1, 4 -> colors[0];
-            case 2, 3 -> colors[1];
-            case 5, 6, 8 -> colors[2];
-            case 7 -> colors[3];
+            case 2, 3, 11 -> colors[1];
+            case 5, 6, 8, 9 -> colors[2];
+            case 7, 10 -> colors[3];
             default -> throw new IllegalArgumentException("Mensaje no reconocido: " + messageCode);
         };
         

@@ -1,16 +1,8 @@
 
 package codes;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JScrollBar;
+import java.awt.*;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
 public class ScrollBarUI extends BasicScrollBarUI {
@@ -69,7 +61,7 @@ public class ScrollBarUI extends BasicScrollBarUI {
             height = size;
         }
         g2.setColor(new Color(60, 81, 99));
-        g2.fillRect(x, y, width, height);
+        g2.fillRoundRect(x, y, width, height, 20, 20);
     }
 
     @Override

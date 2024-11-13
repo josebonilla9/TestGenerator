@@ -45,7 +45,6 @@ public class MainFrame extends JFrame {
         createButtonPanel = new codes.RoundedPanel();
         buttonCreate = new javax.swing.JLabel();
         debugText = new javax.swing.JLabel();
-        mainBackground = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -60,6 +59,7 @@ public class MainFrame extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(4, 20, 37));
         jPanel1.setPreferredSize(new java.awt.Dimension(430, 932));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -253,16 +253,11 @@ public class MainFrame extends JFrame {
 
         jPanel1.add(lowerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 840, 430, 90));
 
-        mainBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Fondo.png"))); // NOI18N
-        jPanel1.add(mainBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 932));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,8 +276,9 @@ public class MainFrame extends JFrame {
     public static void main(String args[]) {
         EventQueue.invokeLater(() -> {
             MainFrame frame = new MainFrame();
+            frame.setResizable(false);
             frame.setLocationRelativeTo(null);
-            frame.setVisible(true);  
+            frame.setVisible(true);
         });
     }
     
@@ -350,8 +346,13 @@ public class MainFrame extends JFrame {
     private String rootName = "";
     private JLabel[] buttons;
     
+    private final Color fontColorWhite = Color.WHITE;
+    private final Color bgColorTurq = new Color(105, 255, 255);
+    private final Color colorDarkBlue = new Color(2, 10, 18);
+    
     public String showLauncherButtons() {
         buttons = new JLabel[] { selection1, selection2, selection3, selection4, selection5 };
+        
 
         for (int i = 0; i < buttons.length; i++) {
             final int index = i;
@@ -359,17 +360,16 @@ public class MainFrame extends JFrame {
                 @Override
                 public void mouseClicked(MouseEvent evt) {
                     updateLauncherSelection(index);
+                    setButtonCreateColors(bgColorTurq, colorDarkBlue);
                 }
             });
         }
 
         buttonCreate.addMouseListener(new MouseAdapter() {
-            private final Color fontColorWhite = Color.WHITE;
-            private final Color bgColorTurq = new Color(105, 255, 255);
-            private final Color colorDarkBlue = new Color(2, 10, 18);
 
             @Override
             public void mouseClicked(MouseEvent evt) {
+                
                 if (currentIndex != -1) {
                     Utility.writeCSV(rootName);
                 }
@@ -381,19 +381,19 @@ public class MainFrame extends JFrame {
             }
             @Override
             public void mouseEntered(MouseEvent evt) {
-                setButtonCreateColors(bgColorTurq, colorDarkBlue);
+                setButtonCreateColors(colorDarkBlue, fontColorWhite);
             }
             @Override
             public void mouseExited(MouseEvent evt) {
-                setButtonCreateColors(colorDarkBlue, fontColorWhite);
+                setButtonCreateColors(bgColorTurq, colorDarkBlue);
             }
             @Override
             public void mousePressed(MouseEvent evt) {
-                setButtonCreateColors(colorDarkBlue, fontColorWhite);
+                setButtonCreateColors(bgColorTurq, colorDarkBlue);
             }
             @Override
             public void mouseReleased(MouseEvent evt) {
-                setButtonCreateColors(bgColorTurq, fontColorWhite);
+                setButtonCreateColors(colorDarkBlue, fontColorWhite);
             }
         });
         return rootName;
@@ -429,7 +429,7 @@ public class MainFrame extends JFrame {
     }
 
     public void setDebugMessages(int i) {
-        int[][] messages = {{4, 1}, {5, 3}, {6, 3}, {7, 2}, {8, 2}};
+        int[][] messages = {{4, 1}, {5, 3}, {6, 3}, {7, 2}, {8, 2}, {9, 3}, {10, 2}, {11, 2}};
         Utility.setDebugMessage(debugText, messages[i - 1][0], messages[i - 1][1]);
     }
     
@@ -450,7 +450,6 @@ public class MainFrame extends JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel lowerPanel;
-    private javax.swing.JLabel mainBackground;
     private javax.swing.JScrollPane questionScroll;
     private javax.swing.JPanel questionsPanel;
     private javax.swing.JLabel selection1;
