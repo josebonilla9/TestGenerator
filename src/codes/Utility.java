@@ -14,7 +14,6 @@ import java.util.zip.ZipOutputStream;
 public class Utility {
     
     public static void setButtonImg(JLabel jLabelButton, String imgName, int pointer, Dimension dimension) {
-//        ImageIcon image = new ImageIcon("src/images/" + imgName + ".png");
         ImageIcon image = new ImageIcon(Utility.class.getResource("/images/" + imgName + ".png"));
         
         int width = dimension != null ? dimension.width : jLabelButton.getWidth();
@@ -59,11 +58,10 @@ public class Utility {
         containerPanel.repaint();
     }
     
-
     public static void writeCSV(String rootName) {
         String userHome = System.getProperty("user.home");
-        File csvFile = new File(userHome + "\\Documents\\CSVs\\" + rootName + ".csv");
-        File zipFile = new File(userHome + "\\Documents\\" + rootName + ".zip");
+        File csvFile = new File(userHome + File.separator + "Documents" + File.separator + "CSVs" + File.separator + rootName + ".csv");
+        File zipFile = new File(userHome + File.separator + "Documents" + File.separator + rootName + ".zip");
         
         try {
             csvFile.getParentFile().mkdirs();
@@ -102,8 +100,6 @@ public class Utility {
             System.out.println("Error al escribir el archivo CSV o crear el archivo ZIP: " + e.getMessage());
         }
     }
-
-
     
     public static void readCSV(JPanel containerPanel, String rootName, JLabel messageLabel, MainFrame mainFrame) {
         String userHome = System.getProperty("user.home");
@@ -130,7 +126,7 @@ public class Utility {
             mainFrame.setDebugMessages(2);
         }
     }
-    
+   
     private static Timer currentTimer;
 
     public static void startTimer(int seconds, JLabel messageLabel) {
