@@ -14,7 +14,9 @@ import java.util.zip.ZipOutputStream;
 public class Utility {
     
     public static void setButtonImg(JLabel jLabelButton, String imgName, int pointer, Dimension dimension) {
-        ImageIcon image = new ImageIcon("src/images/" + imgName + ".png");
+//        ImageIcon image = new ImageIcon("src/images/" + imgName + ".png");
+        ImageIcon image = new ImageIcon(Utility.class.getResource("/images/" + imgName + ".png"));
+        
         int width = dimension != null ? dimension.width : jLabelButton.getWidth();
         int height = dimension != null ? dimension.height : jLabelButton.getHeight();
         
@@ -59,10 +61,13 @@ public class Utility {
     
 
     public static void writeCSV(String rootName) {
-        File csvFile = new File("src/codes/" + rootName + ".csv");
-        File zipFile = new File("../TestGenerator/" + rootName + ".zip");
-
+        String userHome = System.getProperty("user.home");
+        File csvFile = new File(userHome + "\\Documents\\CSVs\\" + rootName + ".csv");
+        File zipFile = new File(userHome + "\\Documents\\" + rootName + ".zip");
+        
         try {
+            csvFile.getParentFile().mkdirs();
+            
             try (FileWriter fw = new FileWriter(csvFile)) {
                 for (ContentPanel panel : panelList) {
                     if (panel != null) fw.write(panel.toCSV() + "\n");
@@ -101,7 +106,8 @@ public class Utility {
 
     
     public static void readCSV(JPanel containerPanel, String rootName, JLabel messageLabel, MainFrame mainFrame) {
-        File file = new File("src/codes/" + rootName + ".csv");
+        String userHome = System.getProperty("user.home");
+        File file = new File(userHome + "\\Documents\\CSVs\\" + rootName + ".csv");
         
         try (Scanner scFile = new Scanner(file)) {
             if (!scFile.hasNextLine()) {
