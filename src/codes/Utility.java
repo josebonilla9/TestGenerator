@@ -105,7 +105,7 @@ public class Utility {
         String userHome = System.getProperty("user.home");
         File file = new File(userHome + "\\Documents\\CSVs\\" + rootName + ".csv");
         
-        try (Scanner scFile = new Scanner(file)) {
+        try (Scanner scFile = new Scanner(file, "UTF-8")) {
             if (!scFile.hasNextLine()) {
                 mainFrame.setDebugMessages(4);
             } else {
